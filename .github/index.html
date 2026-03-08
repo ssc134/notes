@@ -1,0 +1,956 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Java Collections Hierarchy</title>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+/* ── Theme variables ── */
+
+/* DARK — warm charcoal base, not pure black. High contrast text, muted accents */
+:root[data-theme="dark"] {
+  /* Surfaces: warm dark grey, not black, to reduce eye strain */
+  --bg:           #1c1c1e;
+  --bg2:          #242426;
+  --bg3:          #2c2c2e;
+  --bg4:          #202022;
+  --border:       #3a3a3c;
+  --border2:      #303032;
+  --border3:      #404044;
+
+  /* Body text: off-white with a warm tint, not pure #fff */
+  --text:         #e8e8ea;
+  --text2:        #b0b0b4;
+  --text3:        #88888e;
+  --text4:        #606066;
+  --heading:      #f2f2f4;
+
+  /* Interface node: muted blue tint, readable label */
+  --node-if-bg:        #1e2535;
+  --node-if-bdr:       #2e4070;
+  --node-if-name:      #90bfff;   /* softer sky blue — easy on eyes */
+  --node-if-note:      #6080a8;
+  --node-if-bdg-bg:    #1a2a4a;
+  --node-if-bdg-bdr:   #2a4070;
+
+  /* Class node: muted sage green */
+  --node-cl-bg:        #1c2620;
+  --node-cl-bdr:       #2e4a34;
+  --node-cl-name:      #72c98a;   /* softer mint green */
+  --node-cl-note:      #4a7858;
+  --node-cl-bdg-bg:    #1a2e20;
+  --node-cl-bdg-bdr:   #2a4a30;
+  --node-cl-act-bg:    #182820;
+  --node-cl-act-name:  #9adeac;
+  --node-cl-act-note:  #5a8a68;
+
+  --toggle-bg:         rgba(60,90,160,0.18);
+  --toggle-bdr:        rgba(90,140,220,0.35);
+  --toggle-color:      #7aaae8;
+  --dot-color:         #5cb870;
+
+  --divider:           linear-gradient(to right, #3a3a3c, transparent);
+  --detail-bg:         #1c1c1e;
+  --empty-color:       #484850;
+  --empty-text:        #686870;
+
+  /* Detail header */
+  --h2-color:          #72c98a;
+  --sub-color:         #909096;
+
+  /* Impl badges */
+  --badge-g-bg:   #1a2e20; --badge-g-bdr: #2e5038; --badge-g-txt: #72c98a;
+  --badge-b-bg:   #1a2540; --badge-b-bdr: #2a3e68; --badge-b-txt: #90bfff;
+
+  /* Table */
+  --th-bg:             #242426;
+  --th-color:          #a0a0a8;
+  --td-even:           #202022;
+  --td-hover:          #2a2a2e;
+  --td-border:         #2e2e32;
+
+  /* Method / return / desc text */
+  --method-color:      #82ccec;   /* soft cyan — readable, not glary */
+  --ret-color:         #c09cf0;   /* muted lavender */
+  --desc-color:        #a0a0a8;
+
+  /* Complexity pills — toned down, not neon */
+  --pill-g-bg: #162a1e; --pill-g-bdr: #2a5038; --pill-g-txt: #68c882;
+  --pill-y-bg: #2a2010; --pill-y-bdr: #504010; --pill-y-txt: #d4a84a;
+  --pill-r-bg: #2a1414; --pill-r-bdr: #502020; --pill-r-txt: #d47070;
+
+  /* Note box */
+  --note-bg:           #242426;
+  --note-bdr:          #3a3a3c;
+  --note-txt:          #a8a8b0;
+  --note-strong:       #ccccd0;
+
+  /* Scrollbar */
+  --scroll-track:      #1c1c1e;
+  --scroll-thumb:      #404044;
+  --scroll-thumb-h:    #585860;
+
+  /* Resizer & theme button */
+  --resizer-bg:        #303034;
+  --resizer-hover:     #505058;
+  --theme-btn-bg:      #2c2c2e;
+  --theme-btn-bdr:     #444448;
+  --theme-btn-txt:     #d0d0d4;
+}
+
+/* LIGHT — warm paper white base, ink-level text, restrained pastels */
+:root[data-theme="light"] {
+  /* Surfaces: warm off-white, not clinical #fff */
+  --bg:           #f4f3f0;
+  --bg2:          #faf9f7;
+  --bg3:          #eceae6;
+  --bg4:          #f8f7f4;
+  --border:       #d8d4cc;
+  --border2:      #e0ddd8;
+  --border3:      #ccc8c0;
+
+  /* Body text: near-black with warmth, not pure #000 */
+  --text:         #2a2824;
+  --text2:        #5a5650;
+  --text3:        #807c76;
+  --text4:        #a8a49e;
+  --heading:      #1a1816;
+
+  /* Interface node: warm periwinkle tint */
+  --node-if-bg:        #eef0f8;
+  --node-if-bdr:       #b0bedc;
+  --node-if-name:      #2a509a;   /* strong ink blue — high contrast */
+  --node-if-note:      #607098;
+  --node-if-bdg-bg:    #dde4f4;
+  --node-if-bdg-bdr:   #a0b4d8;
+
+  /* Class node: warm sage */
+  --node-cl-bg:        #eef6ee;
+  --node-cl-bdr:       #a0c8a8;
+  --node-cl-name:      #1e6e38;   /* forest green — legible on light bg */
+  --node-cl-note:      #4e7858;
+  --node-cl-bdg-bg:    #d8eedd;
+  --node-cl-bdg-bdr:   #88b898;
+  --node-cl-act-bg:    #d4edda;
+  --node-cl-act-name:  #145828;
+  --node-cl-act-note:  #3e6848;
+
+  --toggle-bg:         rgba(180,200,240,0.35);
+  --toggle-bdr:        rgba(80,120,200,0.40);
+  --toggle-color:      #2a509a;
+  --dot-color:         #1e7838;
+
+  --divider:           linear-gradient(to right, #ccc8c0, transparent);
+  --detail-bg:         #f4f3f0;
+  --empty-color:       #c0bcb8;
+  --empty-text:        #a09c98;
+
+  /* Detail header */
+  --h2-color:          #1e6e38;
+  --sub-color:         #706c66;
+
+  /* Impl badges */
+  --badge-g-bg:   #d8eedd; --badge-g-bdr: #88b898; --badge-g-txt: #1e6e38;
+  --badge-b-bg:   #dde4f4; --badge-b-bdr: #a0b4d8; --badge-b-txt: #2a509a;
+
+  /* Table */
+  --th-bg:             #e8e6e2;
+  --th-color:          #5a5650;
+  --td-even:           #f8f7f4;
+  --td-hover:          #eceae4;
+  --td-border:         #dedad4;
+
+  /* Method / return / desc — ink colours with enough contrast */
+  --method-color:      #1a5490;   /* deep blue */
+  --ret-color:         #6030a0;   /* deep violet */
+  --desc-color:        #524e48;
+
+  /* Pills — muted pastels with dark text for readability */
+  --pill-g-bg: #d8f0de; --pill-g-bdr: #70b880; --pill-g-txt: #144e26;
+  --pill-y-bg: #f8eecc; --pill-y-bdr: #c89830; --pill-y-txt: #6a4400;
+  --pill-r-bg: #f8e0e0; --pill-r-bdr: #c87070; --pill-r-txt: #6e1818;
+
+  /* Note box */
+  --note-bg:           #faf9f7;
+  --note-bdr:          #d8d4cc;
+  --note-txt:          #5a5650;
+  --note-strong:       #2a2824;
+
+  /* Scrollbar */
+  --scroll-track:      #ece9e4;
+  --scroll-thumb:      #c0bcb6;
+  --scroll-thumb-h:    #a09c96;
+
+  /* Resizer & theme button */
+  --resizer-bg:        #d4d0c8;
+  --resizer-hover:     #a8a49e;
+  --theme-btn-bg:      #faf9f7;
+  --theme-btn-bdr:     #d0ccc6;
+  --theme-btn-txt:     #2a2824;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Inter', sans-serif;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background 0.2s, color 0.2s;
+}
+
+/* ── Header ── */
+.header {
+  padding: 20px 28px 16px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg2);
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.header-left h1 {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 18px; font-weight: 700;
+  color: var(--heading); letter-spacing: -0.5px; margin-bottom: 4px;
+}
+.header-left p { font-size: 12px; color: var(--text2); }
+.legend { display: flex; gap: 16px; margin-top: 10px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 11px; color: var(--text3); }
+.legend-dot { width: 11px; height: 11px; border-radius: 3px; border: 1px solid; }
+
+/* Theme toggle */
+.theme-btn {
+  display: flex; align-items: center; gap: 7px;
+  padding: 7px 13px; border-radius: 20px;
+  background: var(--theme-btn-bg); border: 1px solid var(--theme-btn-bdr);
+  color: var(--theme-btn-txt); font-size: 12px; font-family: 'Inter', sans-serif;
+  cursor: pointer; white-space: nowrap; flex-shrink: 0;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+  user-select: none;
+}
+.theme-btn:hover { border-color: var(--text3); }
+.theme-icon { font-size: 14px; }
+
+/* ── Layout ── */
+.layout {
+  display: flex; flex: 1; overflow: hidden;
+  height: calc(100vh - 108px);
+  position: relative;
+}
+
+/* ── Tree Panel ── */
+.tree-panel {
+  width: 420px; min-width: 240px; max-width: 70%;
+  overflow-y: auto; overflow-x: auto;
+  padding: 24px 24px 48px;
+  background: var(--bg);
+  flex-shrink: 0;
+}
+.tree-root { display: flex; flex-direction: column; gap: 24px; }
+
+.subtree { position: relative; }
+.children {
+  margin-left: 18px; padding-left: 14px;
+  border-left: 1px solid var(--border3);
+  margin-top: 4px; display: flex; flex-direction: column; gap: 4px;
+}
+.child-wrapper { position: relative; padding-top: 4px; }
+.child-wrapper::before {
+  content: ''; position: absolute;
+  left: -14px; top: 17px; width: 14px; height: 1px;
+  background: var(--border3);
+}
+
+/* ── Resizer ── */
+.resizer {
+  width: 5px; flex-shrink: 0;
+  background: var(--resizer-bg);
+  cursor: col-resize;
+  transition: background 0.15s;
+  position: relative;
+  z-index: 10;
+}
+.resizer:hover, .resizer.dragging { background: var(--resizer-hover); }
+.resizer::after {
+  content: '';
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 1px; height: 40px;
+  background: var(--text4);
+  border-radius: 1px;
+}
+
+/* ── Node cards ── */
+.node {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 11px; border-radius: 7px; border: 1px solid;
+  transition: border-color 0.15s, box-shadow 0.15s, transform 0.1s, background 0.15s;
+  user-select: none; max-width: 380px; position: relative;
+}
+.node.interface {
+  background: var(--node-if-bg); border-color: var(--node-if-bdr); cursor: pointer;
+}
+.node.interface:hover { border-color: #4d7ef5; transform: translateX(2px); }
+.node.class {
+  background: var(--node-cl-bg); border-color: var(--node-cl-bdr); cursor: pointer;
+}
+.node.class:hover { border-color: var(--dot-color); transform: translateX(2px); }
+.node.class.active { background: var(--node-cl-act-bg); border-color: var(--dot-color); }
+
+.toggle {
+  width: 15px; height: 15px; border-radius: 4px; border: 1px solid;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 9px; font-weight: 700; flex-shrink: 0; transition: transform 0.2s;
+}
+.interface .toggle {
+  background: var(--toggle-bg); border-color: var(--toggle-bdr);
+  color: var(--toggle-color); transform: rotate(-90deg);
+}
+.dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; background: var(--dot-color); }
+
+.node-body { display: flex; flex-direction: column; gap: 1px; }
+.node-name {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; font-weight: 600;
+  display: flex; align-items: center; gap: 5px;
+}
+.interface .node-name { color: var(--node-if-name); }
+.class .node-name     { color: var(--node-cl-name); }
+.class.active .node-name { color: var(--node-cl-act-name); }
+
+.badge {
+  font-size: 8px; font-weight: 700; padding: 1px 5px; border-radius: 3px;
+  text-transform: uppercase; letter-spacing: 0.5px; font-family: 'Inter', sans-serif;
+}
+.badge-interface { background: var(--node-if-bdg-bg); color: var(--node-if-name); border: 1px solid var(--node-if-bdg-bdr); }
+.badge-class     { background: var(--node-cl-bdg-bg); color: var(--node-cl-name); border: 1px solid var(--node-cl-bdg-bdr); }
+
+.node-note { font-size: 9.5px; font-style: italic; }
+.interface .node-note { color: var(--node-if-note); }
+.class .node-note     { color: var(--node-cl-note); }
+.class.active .node-note { color: var(--node-cl-act-note); }
+
+.divider { height: 1px; background: var(--divider); margin: 4px 0; }
+.collapsed > .children { display: none; }
+
+/* ── Detail Panel ── */
+.detail-panel { flex: 1; overflow-y: auto; padding: 24px 28px 48px; background: var(--detail-bg); }
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; gap: 12px; text-align: center;
+}
+.empty-state .arrow { font-size: 32px; color: var(--empty-color); }
+.empty-state p { font-size: 13px; max-width: 240px; line-height: 1.6; color: var(--empty-text); }
+
+.detail-header { margin-bottom: 20px; }
+.detail-header h2 {
+  font-family: 'JetBrains Mono', monospace; font-size: 20px; font-weight: 700;
+  color: var(--h2-color); margin-bottom: 6px;
+}
+.detail-header .sub {
+  font-size: 11px; color: var(--sub-color); display: flex; align-items: center; gap: 7px; flex-wrap: wrap;
+}
+.impl-badge {
+  font-size: 10px; padding: 2px 8px; border-radius: 20px;
+  background: var(--badge-g-bg); border: 1px solid var(--badge-g-bdr);
+  color: var(--badge-g-txt); font-family: 'JetBrains Mono', monospace;
+}
+.impl-badge.blue { background: var(--badge-b-bg); border-color: var(--badge-b-bdr); color: var(--badge-b-txt); }
+
+/* ── Table ── */
+.complexity-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.complexity-table th {
+  padding: 8px 12px; text-align: left;
+  font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.6px;
+  background: var(--th-bg); color: var(--th-color);
+  border-bottom: 1px solid var(--border);
+  position: sticky; top: 0; z-index: 2;
+}
+.complexity-table td { padding: 8px 12px; border-bottom: 1px solid var(--td-border); vertical-align: middle; }
+.complexity-table tr:last-child td { border-bottom: none; }
+.complexity-table tr:nth-child(even) td { background: var(--td-even); }
+.complexity-table tr:hover td { background: var(--td-hover); }
+
+.method-name { font-family: 'JetBrains Mono', monospace; color: var(--method-color); font-size: 11px; }
+.ret-type    { font-family: 'JetBrains Mono', monospace; color: var(--ret-color);    font-size: 11px; }
+.desc        { color: var(--desc-color); font-size: 11px; }
+
+.pill {
+  display: inline-block; padding: 2px 8px; border-radius: 20px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10.5px; font-weight: 600; white-space: nowrap;
+}
+.pill-green  { background: var(--pill-g-bg); color: var(--pill-g-txt); border: 1px solid var(--pill-g-bdr); }
+.pill-yellow { background: var(--pill-y-bg); color: var(--pill-y-txt); border: 1px solid var(--pill-y-bdr); }
+.pill-red    { background: var(--pill-r-bg); color: var(--pill-r-txt); border: 1px solid var(--pill-r-bdr); }
+
+.note-box {
+  margin-top: 16px; padding: 11px 14px; border-radius: 8px;
+  background: var(--note-bg); border: 1px solid var(--note-bdr);
+  font-size: 11px; color: var(--note-txt); line-height: 1.65;
+}
+.note-box strong { color: var(--note-strong); }
+
+::-webkit-scrollbar { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: var(--scroll-track); }
+::-webkit-scrollbar-thumb { background: var(--scroll-thumb); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--scroll-thumb-h); }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="header-left">
+    <h1>Java Collections Hierarchy</h1>
+    <p>Click a <strong style="color:var(--node-cl-name)">class</strong> to view complexities &nbsp;·&nbsp; Click an <strong style="color:var(--node-if-name)">interface</strong> to expand/collapse</p>
+    <div class="legend">
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--node-if-bg);border-color:var(--node-if-bdr);"></div> Interface
+      </div>
+      <div class="legend-item">
+        <div class="legend-dot" style="background:var(--node-cl-bg);border-color:var(--node-cl-bdr);"></div> Class
+      </div>
+    </div>
+  </div>
+  <button class="theme-btn" id="themeBtn" onclick="toggleTheme()">
+    <span class="theme-icon" id="themeIcon">☀️</span>
+    <span id="themeLabel">Light mode</span>
+  </button>
+</div>
+
+<div class="layout" id="layout">
+  <div class="tree-panel" id="treePanel">
+    <div class="tree-root" id="tree"></div>
+  </div>
+  <div class="resizer" id="resizer"></div>
+  <div class="detail-panel" id="detail">
+    <div class="empty-state">
+      <div class="arrow">←</div>
+      <p>Select a <strong style="color:var(--node-cl-name)">class</strong> to view its method time complexities</p>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── Theme toggle ────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.getElementById('themeIcon').textContent  = isDark ? '🌙' : '☀️';
+  document.getElementById('themeLabel').textContent = isDark ? 'Dark mode' : 'Light mode';
+}
+
+// ── Resizer ─────────────────────────────────────────────────────────────────
+(function() {
+  const resizer   = document.getElementById('resizer');
+  const treePanel = document.getElementById('treePanel');
+  const layout    = document.getElementById('layout');
+  let dragging = false, startX = 0, startW = 0;
+
+  resizer.addEventListener('mousedown', e => {
+    dragging = true; startX = e.clientX; startW = treePanel.offsetWidth;
+    resizer.classList.add('dragging');
+    document.body.style.cursor = 'col-resize';
+    document.body.style.userSelect = 'none';
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    const delta = e.clientX - startX;
+    const newW  = Math.max(240, Math.min(startW + delta, layout.offsetWidth * 0.75));
+    treePanel.style.width = newW + 'px';
+  });
+  document.addEventListener('mouseup', () => {
+    if (!dragging) return;
+    dragging = false;
+    resizer.classList.remove('dragging');
+    document.body.style.cursor = '';
+    document.body.style.userSelect = '';
+  });
+})();
+
+// ── Complexity data ──────────────────────────────────────────────────────────
+// Each method: [name, returnType, description, avgTime, worstTime, avgColor, worstColor]
+const complexities = {
+  ArrayList: {
+    implements: "List<E>", backed: "Dynamic Array",
+    note: "Amortized O(1) appends — resizes by doubling capacity. Random access is O(1) due to array indexing. Mid-list insertions and deletions are O(n) due to element shifting.",
+    methods: [
+      ["add(e)",             "boolean",  "Append to end",           "O(1) amortized","O(n)",      "yellow","red"],
+      ["add(i, e)",          "void",     "Insert at index",         "O(n)",          "O(n)",      "red",   "red"],
+      ["get(i)",             "E",        "Access by index",         "O(1)",          "O(1)",      "green", "green"],
+      ["set(i, e)",          "E",        "Replace at index",        "O(1)",          "O(1)",      "green", "green"],
+      ["remove(i)",          "E",        "Remove by index",         "O(n)",          "O(n)",      "red",   "red"],
+      ["remove(o)",          "boolean",  "Remove by object",        "O(n)",          "O(n)",      "red",   "red"],
+      ["contains(o)",        "boolean",  "Search for element",      "O(n)",          "O(n)",      "red",   "red"],
+      ["indexOf(o)",         "int",      "First index of element",  "O(n)",          "O(n)",      "red",   "red"],
+      ["size()",             "int",      "Return size",             "O(1)",          "O(1)",      "green", "green"],
+      ["isEmpty()",          "boolean",  "Check if empty",          "O(1)",          "O(1)",      "green", "green"],
+      ["clear()",            "void",     "Remove all elements",     "O(n)",          "O(n)",      "red",   "red"],
+      ["Collections.sort()", "void",     "Sort list (TimSort)",     "O(n log n)",    "O(n log n)","yellow","yellow"],
+    ]
+  },
+  LinkedList: {
+    implements: "List<E>, Deque<E>", backed: "Doubly-Linked List",
+    note: "Head and tail references allow O(1) operations at both ends. Index-based access requires traversal — O(n). Higher memory overhead per element than ArrayList.",
+    methods: [
+      ["add(e)",        "boolean", "Append to tail",          "O(1)","O(1)","green","green"],
+      ["addFirst(e)",   "void",    "Insert at head",          "O(1)","O(1)","green","green"],
+      ["addLast(e)",    "void",    "Insert at tail",          "O(1)","O(1)","green","green"],
+      ["add(i, e)",     "void",    "Insert at index",         "O(n)","O(n)","red",  "red"],
+      ["get(i)",        "E",       "Access by index",         "O(n)","O(n)","red",  "red"],
+      ["getFirst()",    "E",       "Access head",             "O(1)","O(1)","green","green"],
+      ["getLast()",     "E",       "Access tail",             "O(1)","O(1)","green","green"],
+      ["remove(i)",     "E",       "Remove by index",         "O(n)","O(n)","red",  "red"],
+      ["removeFirst()", "E",       "Remove head",             "O(1)","O(1)","green","green"],
+      ["removeLast()",  "E",       "Remove tail",             "O(1)","O(1)","green","green"],
+      ["contains(o)",   "boolean", "Search for element",      "O(n)","O(n)","red",  "red"],
+      ["size()",        "int",     "Return size",             "O(1)","O(1)","green","green"],
+    ]
+  },
+  Vector: {
+    implements: "List<E>", backed: "Synchronized Dynamic Array",
+    note: "Legacy synchronized version of ArrayList. All methods are synchronized — prefer ArrayList with external sync or CopyOnWriteArrayList in modern code.",
+    methods: [
+      ["add(e)",       "boolean", "Append to end",       "O(1) amortized","O(n)","yellow","red"],
+      ["add(i, e)",    "void",    "Insert at index",     "O(n)",          "O(n)","red",   "red"],
+      ["get(i)",       "E",       "Access by index",     "O(1)",          "O(1)","green", "green"],
+      ["remove(i)",    "E",       "Remove by index",     "O(n)",          "O(n)","red",   "red"],
+      ["contains(o)",  "boolean", "Search for element",  "O(n)",          "O(n)","red",   "red"],
+      ["size()",       "int",     "Return size",         "O(1)",          "O(1)","green", "green"],
+      ["elementAt(i)", "E",       "Access by index",     "O(1)",          "O(1)","green", "green"],
+    ]
+  },
+  Stack: {
+    implements: "Vector (List<E>)", backed: "Dynamic Array (via Vector)",
+    note: "Legacy class extending Vector. Prefer ArrayDeque — no synchronization overhead. Java docs explicitly recommend ArrayDeque for stack usage.",
+    methods: [
+      ["push(e)",   "E",       "Insert on top",             "O(1)","O(n)","green","red"],
+      ["pop()",     "E",       "Remove from top",           "O(1)","O(1)","green","green"],
+      ["peek()",    "E",       "View top without removing", "O(1)","O(1)","green","green"],
+      ["isEmpty()", "boolean", "Check if empty",            "O(1)","O(1)","green","green"],
+      ["size()",    "int",     "Return size",               "O(1)","O(1)","green","green"],
+      ["search(o)", "int",     "1-based position from top", "O(n)","O(n)","red",  "red"],
+    ]
+  },
+  HashSet: {
+    implements: "Set<E>", backed: "HashMap",
+    note: "Backed internally by a HashMap. Worst case O(n) with collisions. Java 8+ converts buckets to red-black trees at threshold 8, making practical worst case O(log n).",
+    methods: [
+      ["add(e)",      "boolean", "Insert element",      "O(1)","O(n)","green","red"],
+      ["remove(o)",   "boolean", "Remove element",      "O(1)","O(n)","green","red"],
+      ["contains(o)", "boolean", "Check membership",    "O(1)","O(n)","green","red"],
+      ["size()",      "int",     "Return size",         "O(1)","O(1)","green","green"],
+      ["isEmpty()",   "boolean", "Check if empty",      "O(1)","O(1)","green","green"],
+      ["clear()",     "void",    "Remove all elements", "O(n)","O(n)","red",  "red"],
+      ["iterator()",  "Iterator<E>","Traverse elements","O(n)","O(n)","red",  "red"],
+    ]
+  },
+  LinkedHashSet: {
+    implements: "Set<E>", backed: "HashMap + Doubly-Linked List",
+    note: "Extends HashSet with a linked list maintaining insertion order. Slightly slower than HashSet due to list pointer maintenance.",
+    methods: [
+      ["add(e)",      "boolean",    "Insert (insertion order)",    "O(1)","O(n)","green","red"],
+      ["remove(o)",   "boolean",    "Remove element",              "O(1)","O(n)","green","red"],
+      ["contains(o)", "boolean",    "Check membership",            "O(1)","O(n)","green","red"],
+      ["iterator()",  "Iterator<E>","Traverse in insertion order", "O(n)","O(n)","red",  "red"],
+      ["size()",      "int",        "Return size",                 "O(1)","O(1)","green","green"],
+      ["isEmpty()",   "boolean",    "Check if empty",              "O(1)","O(1)","green","green"],
+    ]
+  },
+  TreeSet: {
+    implements: "NavigableSet<E>, SortedSet<E>", backed: "Red-Black Tree (TreeMap)",
+    note: "All operations guaranteed O(log n) — no worst-case degradation. Elements always in natural sorted order or by Comparator. Ideal for range queries.",
+    methods: [
+      ["add(e)",       "boolean",    "Insert (sorted)",          "O(log n)","O(log n)","yellow","yellow"],
+      ["remove(o)",    "boolean",    "Remove element",           "O(log n)","O(log n)","yellow","yellow"],
+      ["contains(o)",  "boolean",    "Check membership",         "O(log n)","O(log n)","yellow","yellow"],
+      ["first()",      "E",          "Smallest element",         "O(log n)","O(log n)","yellow","yellow"],
+      ["last()",       "E",          "Largest element",          "O(log n)","O(log n)","yellow","yellow"],
+      ["floor(e)",     "E",          "Largest element ≤ e",      "O(log n)","O(log n)","yellow","yellow"],
+      ["ceiling(e)",   "E",          "Smallest element ≥ e",     "O(log n)","O(log n)","yellow","yellow"],
+      ["higher(e)",    "E",          "Smallest element > e",     "O(log n)","O(log n)","yellow","yellow"],
+      ["lower(e)",     "E",          "Largest element < e",      "O(log n)","O(log n)","yellow","yellow"],
+      ["headSet(e)",   "SortedSet<E>","Elements strictly < e",   "O(log n)","O(log n)","yellow","yellow"],
+      ["tailSet(e)",   "SortedSet<E>","Elements ≥ e",            "O(log n)","O(log n)","yellow","yellow"],
+      ["pollFirst()",  "E",          "Remove & return smallest", "O(log n)","O(log n)","yellow","yellow"],
+      ["pollLast()",   "E",          "Remove & return largest",  "O(log n)","O(log n)","yellow","yellow"],
+      ["size()",       "int",        "Return size",              "O(1)",    "O(1)",    "green", "green"],
+      ["iterator()",   "Iterator<E>","Traverse sorted order",    "O(n)",    "O(n)",    "red",   "red"],
+    ]
+  },
+  HashMap: {
+    implements: "Map<K,V>", backed: "Hash Table",
+    note: "Worst case O(n) with collisions. Java 8+ converts buckets to red-black trees at threshold 8. Default load factor 0.75 balances memory and performance.",
+    methods: [
+      ["put(k, v)",         "V",              "Insert / update key-value", "O(1)","O(n)","green","red"],
+      ["get(k)",            "V",              "Retrieve value by key",     "O(1)","O(n)","green","red"],
+      ["remove(k)",         "V",              "Remove by key",             "O(1)","O(n)","green","red"],
+      ["containsKey(k)",    "boolean",        "Check if key exists",       "O(1)","O(n)","green","red"],
+      ["containsValue(v)",  "boolean",        "Check if value exists",     "O(n)","O(n)","red",  "red"],
+      ["getOrDefault(k,d)", "V",              "Get value or default",      "O(1)","O(n)","green","red"],
+      ["putIfAbsent(k,v)",  "V",              "Insert only if absent",     "O(1)","O(n)","green","red"],
+      ["keySet()",          "Set<K>",         "Set of all keys",           "O(1)","O(1)","green","green"],
+      ["values()",          "Collection<V>",  "Collection of all values",  "O(1)","O(1)","green","green"],
+      ["entrySet()",        "Set<Map.Entry>", "Set of key-value pairs",    "O(1)","O(1)","green","green"],
+      ["size()",            "int",            "Return size",               "O(1)","O(1)","green","green"],
+      ["isEmpty()",         "boolean",        "Check if empty",            "O(1)","O(1)","green","green"],
+    ]
+  },
+  LinkedHashMap: {
+    implements: "Map<K,V>", backed: "HashMap + Doubly-Linked List",
+    note: "Maintains insertion order (or access order with accessOrder=true). Perfect for LRU cache — override removeEldestEntry() in access-order mode.",
+    methods: [
+      ["put(k, v)",      "V",              "Insert / update (ordered)",   "O(1)","O(n)","green","red"],
+      ["get(k)",         "V",              "Retrieve value by key",       "O(1)","O(n)","green","red"],
+      ["remove(k)",      "V",              "Remove by key",               "O(1)","O(n)","green","red"],
+      ["containsKey(k)", "boolean",        "Check if key exists",         "O(1)","O(n)","green","red"],
+      ["keySet()",       "Set<K>",         "Keys in insertion order",     "O(1)","O(1)","green","green"],
+      ["entrySet()",     "Set<Map.Entry>", "Entries in insertion order",  "O(1)","O(1)","green","green"],
+      ["size()",         "int",            "Return size",                 "O(1)","O(1)","green","green"],
+    ]
+  },
+  Hashtable: {
+    implements: "Map<K,V>", backed: "Synchronized Hash Table",
+    note: "Legacy synchronized version of HashMap. Does not allow null keys or values. Use ConcurrentHashMap for thread-safe modern code.",
+    methods: [
+      ["put(k, v)",      "V",       "Insert / update",    "O(1)","O(n)","green","red"],
+      ["get(k)",         "V",       "Retrieve by key",    "O(1)","O(n)","green","red"],
+      ["remove(k)",      "V",       "Remove by key",      "O(1)","O(n)","green","red"],
+      ["containsKey(k)", "boolean", "Check if key exists","O(1)","O(n)","green","red"],
+      ["size()",         "int",     "Return size",        "O(1)","O(1)","green","green"],
+    ]
+  },
+  TreeMap: {
+    implements: "NavigableMap<K,V>, SortedMap<K,V>", backed: "Red-Black Tree",
+    note: "All operations guaranteed O(log n). Keys always in sorted order. Perfect for range queries, finding nearest keys, and sorted iteration.",
+    methods: [
+      ["put(k, v)",        "V",             "Insert / update (sorted)", "O(log n)","O(log n)","yellow","yellow"],
+      ["get(k)",           "V",             "Retrieve value by key",    "O(log n)","O(log n)","yellow","yellow"],
+      ["remove(k)",        "V",             "Remove by key",            "O(log n)","O(log n)","yellow","yellow"],
+      ["containsKey(k)",   "boolean",       "Check if key exists",      "O(log n)","O(log n)","yellow","yellow"],
+      ["firstKey()",       "K",             "Smallest key",             "O(log n)","O(log n)","yellow","yellow"],
+      ["lastKey()",        "K",             "Largest key",              "O(log n)","O(log n)","yellow","yellow"],
+      ["floorKey(k)",      "K",             "Largest key ≤ k",          "O(log n)","O(log n)","yellow","yellow"],
+      ["ceilingKey(k)",    "K",             "Smallest key ≥ k",         "O(log n)","O(log n)","yellow","yellow"],
+      ["higherKey(k)",     "K",             "Smallest key > k",         "O(log n)","O(log n)","yellow","yellow"],
+      ["lowerKey(k)",      "K",             "Largest key < k",          "O(log n)","O(log n)","yellow","yellow"],
+      ["headMap(k)",       "SortedMap<K,V>","Keys strictly < k",        "O(log n)","O(log n)","yellow","yellow"],
+      ["tailMap(k)",       "SortedMap<K,V>","Keys ≥ k",                 "O(log n)","O(log n)","yellow","yellow"],
+      ["pollFirstEntry()", "Map.Entry<K,V>","Remove & return smallest", "O(log n)","O(log n)","yellow","yellow"],
+      ["pollLastEntry()",  "Map.Entry<K,V>","Remove & return largest",  "O(log n)","O(log n)","yellow","yellow"],
+      ["size()",           "int",           "Return size",              "O(1)",    "O(1)",    "green", "green"],
+    ]
+  },
+  PriorityQueue: {
+    implements: "Queue<E>", backed: "Binary Min-Heap",
+    note: "Min-heap by default — peek/poll returns the smallest element. Use Collections.reverseOrder() or a Comparator for max-heap. Iteration order is NOT sorted.",
+    methods: [
+      ["offer(e) / add(e)", "boolean", "Insert element",            "O(log n)","O(log n)","yellow","yellow"],
+      ["poll()",            "E",       "Remove & return min",       "O(log n)","O(log n)","yellow","yellow"],
+      ["peek()",            "E",       "View min without removing", "O(1)",    "O(1)",    "green", "green"],
+      ["remove(o)",         "boolean", "Remove specific element",   "O(n)",    "O(n)",    "red",   "red"],
+      ["contains(o)",       "boolean", "Check if element exists",   "O(n)",    "O(n)",    "red",   "red"],
+      ["size()",            "int",     "Return size",               "O(1)",    "O(1)",    "green", "green"],
+      ["isEmpty()",         "boolean", "Check if empty",            "O(1)",    "O(1)",    "green", "green"],
+    ]
+  },
+  ArrayDeque: {
+    implements: "Deque<E>", backed: "Resizable Circular Array",
+    note: "Preferred over Stack and LinkedList for stack/queue usage. No null elements allowed. As stack: push/pop/peek. As queue: offerLast/pollFirst/peekFirst.",
+    methods: [
+      ["push(e) / offerFirst(e)", "void/boolean","Insert at front",             "O(1) amortized","O(n)","yellow","red"],
+      ["pop() / pollFirst()",     "E",           "Remove from front",           "O(1)",          "O(1)","green", "green"],
+      ["peek() / peekFirst()",    "E",           "View front without removing", "O(1)",          "O(1)","green", "green"],
+      ["offerLast(e)",            "boolean",     "Insert at back",              "O(1) amortized","O(n)","yellow","red"],
+      ["pollLast()",              "E",           "Remove from back",            "O(1)",          "O(1)","green", "green"],
+      ["peekLast()",              "E",           "View back without removing",  "O(1)",          "O(1)","green", "green"],
+      ["contains(o)",             "boolean",     "Search for element",          "O(n)",          "O(n)","red",   "red"],
+      ["size()",                  "int",         "Return size",                 "O(1)",          "O(1)","green", "green"],
+      ["isEmpty()",               "boolean",     "Check if empty",              "O(1)",          "O(1)","green", "green"],
+    ]
+  },
+  String: {
+    implements: "CharSequence, Comparable<String>, Serializable", backed: "Immutable byte[] (Java 9+)",
+    note: "Strings are immutable — every modification creates a new object. Use StringBuilder for repeated concatenation in loops. String literals are interned in the string pool.",
+    methods: [
+      ["length()",              "int",     "Number of characters",             "O(1)",   "O(1)",   "green", "green"],
+      ["charAt(i)",             "char",    "Character at index",               "O(1)",   "O(1)",   "green", "green"],
+      ["substring(s, e)",       "String",  "Extract substring",                "O(n)",   "O(n)",   "red",   "red"],
+      ["indexOf(s)",            "int",     "First occurrence of substring",    "O(n*m)", "O(n*m)", "red",   "red"],
+      ["contains(s)",           "boolean", "Check if substring exists",        "O(n*m)", "O(n*m)", "red",   "red"],
+      ["equals(s)",             "boolean", "Equality check (content)",         "O(n)",   "O(n)",   "red",   "red"],
+      ["equalsIgnoreCase(s)",   "boolean", "Case-insensitive equality",        "O(n)",   "O(n)",   "red",   "red"],
+      ["compareTo(s)",          "int",     "Lexicographic comparison",         "O(n)",   "O(n)",   "red",   "red"],
+      ["toCharArray()",         "char[]",  "Convert to char[]",                "O(n)",   "O(n)",   "red",   "red"],
+      ["toLowerCase()",         "String",  "Convert to lowercase",             "O(n)",   "O(n)",   "red",   "red"],
+      ["toUpperCase()",         "String",  "Convert to uppercase",             "O(n)",   "O(n)",   "red",   "red"],
+      ["trim() / strip()",      "String",  "Remove leading/trailing spaces",   "O(n)",   "O(n)",   "red",   "red"],
+      ["split(regex)",          "String[]","Split by regex",                   "O(n)",   "O(n)",   "red",   "red"],
+      ["replace(old, new)",     "String",  "Replace all occurrences",          "O(n)",   "O(n)",   "red",   "red"],
+      ["startsWith(prefix)",    "boolean", "Check prefix",                     "O(m)",   "O(m)",   "green", "green"],
+      ["endsWith(suffix)",      "boolean", "Check suffix",                     "O(m)",   "O(m)",   "green", "green"],
+      ["isEmpty()",             "boolean", "Check if length == 0",             "O(1)",   "O(1)",   "green", "green"],
+      ["isBlank()",             "boolean", "Check if blank (Java 11+)",        "O(n)",   "O(n)",   "red",   "red"],
+      ["String.valueOf(x)",     "String",  "Convert primitive to String",      "O(n)",   "O(n)",   "red",   "red"],
+      ["intern()",              "String",  "Return string pool reference",     "O(n)",   "O(n)",   "red",   "red"],
+      ["+ concatenation",       "String",  "String concat (creates new obj)",  "O(n)",   "O(n)",   "red",   "red"],
+    ]
+  },
+  StringBuilder: {
+    implements: "AbstractStringBuilder, CharSequence", backed: "Mutable char[] (resizable)",
+    note: "Mutable — no new object per modification. Use instead of String for loop-based concatenation. Not thread-safe; use StringBuffer if synchronization is needed.",
+    methods: [
+      ["append(x)",          "StringBuilder", "Append value (any type)",          "O(1) amortized","O(n)",   "yellow","red"],
+      ["insert(i, x)",       "StringBuilder", "Insert at index",                  "O(n)",          "O(n)",   "red",   "red"],
+      ["delete(s, e)",       "StringBuilder", "Remove characters [s, e)",         "O(n)",          "O(n)",   "red",   "red"],
+      ["deleteCharAt(i)",    "StringBuilder", "Remove char at index",             "O(n)",          "O(n)",   "red",   "red"],
+      ["replace(s, e, str)", "StringBuilder", "Replace substring",                "O(n)",          "O(n)",   "red",   "red"],
+      ["reverse()",          "StringBuilder", "Reverse the contents",             "O(n)",          "O(n)",   "red",   "red"],
+      ["charAt(i)",          "char",          "Character at index",               "O(1)",          "O(1)",   "green", "green"],
+      ["setCharAt(i, c)",    "void",          "Set char at index",                "O(1)",          "O(1)",   "green", "green"],
+      ["indexOf(s)",         "int",           "First occurrence of substring",    "O(n*m)",        "O(n*m)", "red",   "red"],
+      ["length()",           "int",           "Number of characters",             "O(1)",          "O(1)",   "green", "green"],
+      ["toString()",         "String",        "Convert to immutable String",      "O(n)",          "O(n)",   "red",   "red"],
+      ["substring(s, e)",    "String",        "Extract substring",                "O(n)",          "O(n)",   "red",   "red"],
+    ]
+  },
+  StringBuffer: {
+    implements: "AbstractStringBuilder, CharSequence", backed: "Mutable char[] (resizable, synchronized)",
+    note: "Thread-safe version of StringBuilder — all methods are synchronized. Use StringBuilder in single-threaded code (faster). Use StringBuffer only when shared across threads.",
+    methods: [
+      ["append(x)",          "StringBuffer", "Append value (any type)",          "O(1) amortized","O(n)",   "yellow","red"],
+      ["insert(i, x)",       "StringBuffer", "Insert at index",                  "O(n)",          "O(n)",   "red",   "red"],
+      ["delete(s, e)",       "StringBuffer", "Remove characters [s, e)",         "O(n)",          "O(n)",   "red",   "red"],
+      ["deleteCharAt(i)",    "StringBuffer", "Remove char at index",             "O(n)",          "O(n)",   "red",   "red"],
+      ["replace(s, e, str)", "StringBuffer", "Replace substring",                "O(n)",          "O(n)",   "red",   "red"],
+      ["reverse()",          "StringBuffer", "Reverse the contents",             "O(n)",          "O(n)",   "red",   "red"],
+      ["charAt(i)",          "char",         "Character at index",               "O(1)",          "O(1)",   "green", "green"],
+      ["setCharAt(i, c)",    "void",         "Set char at index",                "O(1)",          "O(1)",   "green", "green"],
+      ["indexOf(s)",         "int",          "First occurrence of substring",    "O(n*m)",        "O(n*m)", "red",   "red"],
+      ["length()",           "int",          "Number of characters",             "O(1)",          "O(1)",   "green", "green"],
+      ["toString()",         "String",       "Convert to immutable String",      "O(n)",          "O(n)",   "red",   "red"],
+      ["substring(s, e)",    "String",       "Extract substring",                "O(n)",          "O(n)",   "red",   "red"],
+    ]
+  },
+  "Array (primitive)": {
+    implements: "Cloneable, Serializable (implicitly)", backed: "Contiguous memory block",
+    note: "Fixed-size contiguous memory. Fastest possible random access at O(1). Size cannot change after creation — use ArrayList for dynamic sizing.",
+    methods: [
+      ["arr[i]",                        "T",        "Read element at index",          "O(1)",      "O(1)",      "green", "green"],
+      ["arr[i] = val",                  "void",     "Write element at index",         "O(1)",      "O(1)",      "green", "green"],
+      ["arr.length",                    "int",      "Get array size",                 "O(1)",      "O(1)",      "green", "green"],
+      ["Arrays.sort(arr)",              "void",     "Sort (Dual-Pivot Quicksort)",    "O(n log n)","O(n log n)","yellow","yellow"],
+      ["Arrays.sort(arr, s, e)",        "void",     "Sort subarray",                  "O(n log n)","O(n log n)","yellow","yellow"],
+      ["Arrays.binarySearch(arr, k)",   "int",      "Binary search (sorted only)",    "O(log n)",  "O(log n)",  "yellow","yellow"],
+      ["Arrays.fill(arr, v)",           "void",     "Fill with value",                "O(n)",      "O(n)",      "red",   "red"],
+      ["Arrays.copyOf(arr, len)",       "T[]",      "Copy with new length",           "O(n)",      "O(n)",      "red",   "red"],
+      ["Arrays.copyOfRange(arr, s, e)", "T[]",      "Copy subarray",                  "O(n)",      "O(n)",      "red",   "red"],
+      ["Arrays.equals(a, b)",           "boolean",  "Element-wise comparison",        "O(n)",      "O(n)",      "red",   "red"],
+      ["Arrays.toString(arr)",          "String",   "Convert to string",              "O(n)",      "O(n)",      "red",   "red"],
+      ["Arrays.asList(arr)",            "List<T>",  "Wrap as fixed-size List",        "O(1)",      "O(1)",      "green", "green"],
+      ["System.arraycopy(s,si,d,di,n)", "void",     "Native array copy",              "O(n)",      "O(n)",      "red",   "red"],
+      ["new int[n]",                    "int[]",    "Allocate array (zero-init)",     "O(n)",      "O(n)",      "red",   "red"],
+    ]
+  },
+};
+
+// ── Tree data ────────────────────────────────────────────────────────────────
+const treeData = [
+  {
+    label: "Iterable<E>", type: "interface", note: "enables for-each loops",
+    children: [{
+      label: "Collection<E>", type: "interface", note: "root of all collections",
+      children: [
+        {
+          label: "List<E>", type: "interface", note: "ordered, indexed, duplicates allowed",
+          children: [
+            { label: "ArrayList",  type: "class", note: "dynamic array" },
+            { label: "LinkedList", type: "class", note: "doubly-linked — also Deque" },
+            { label: "Vector",     type: "class", note: "synchronized ArrayList (legacy)" },
+            { label: "Stack",      type: "class", note: "LIFO — prefer ArrayDeque" },
+          ]
+        },
+        {
+          label: "Set<E>", type: "interface", note: "no duplicate elements",
+          children: [
+            { label: "HashSet",       type: "class", note: "hash table, unordered" },
+            { label: "LinkedHashSet", type: "class", note: "hash table + insertion order" },
+            {
+              label: "SortedSet<E>", type: "interface", note: "elements in sorted order",
+              children: [{
+                label: "NavigableSet<E>", type: "interface", note: "floor / ceiling / higher / lower",
+                children: [{ label: "TreeSet", type: "class", note: "red-black tree — O(log n)" }]
+              }]
+            },
+          ]
+        },
+        {
+          label: "Queue<E>", type: "interface", note: "FIFO — offer / poll / peek",
+          children: [
+            { label: "PriorityQueue", type: "class", note: "binary min-heap" },
+            {
+              label: "Deque<E>", type: "interface", note: "double-ended queue",
+              children: [
+                { label: "ArrayDeque", type: "class", note: "resizable array (preferred)" },
+                { label: "LinkedList", type: "class", note: "also implements List" },
+              ]
+            }
+          ]
+        }
+      ]
+    }]
+  },
+  {
+    label: "Map<K,V>", type: "interface", note: "key-value pairs — no duplicate keys",
+    children: [
+      { label: "HashMap",       type: "class", note: "hash table, unordered" },
+      { label: "LinkedHashMap", type: "class", note: "insertion / access order" },
+      { label: "Hashtable",     type: "class", note: "synchronized HashMap (legacy)" },
+      {
+        label: "SortedMap<K,V>", type: "interface", note: "keys in sorted order",
+        children: [{
+          label: "NavigableMap<K,V>", type: "interface", note: "floorKey / ceilingKey / etc.",
+          children: [{ label: "TreeMap", type: "class", note: "red-black tree — O(log n)" }]
+        }]
+      }
+    ]
+  },
+  {
+    label: "java.lang — Strings", type: "interface", note: "text manipulation classes",
+    children: [
+      { label: "String",        type: "class", note: "immutable sequence of characters" },
+      { label: "StringBuilder", type: "class", note: "mutable — use for string building" },
+      { label: "StringBuffer",  type: "class", note: "mutable + thread-safe (synchronized)" },
+    ]
+  },
+  { label: "Array (primitive)", type: "class", note: "fixed-size contiguous memory — O(1) access" },
+];
+
+// ── Render helpers ───────────────────────────────────────────────────────────
+let activeCard = null;
+
+function pillClass(c) {
+  return { green: "pill-green", yellow: "pill-yellow", red: "pill-red" }[c] || "pill-green";
+}
+
+function showDetail(label) {
+  const data = complexities[label];
+  const detail = document.getElementById("detail");
+  if (!data) {
+    detail.innerHTML = `<div class="empty-state"><div class="arrow">⚠️</div><p>No data for <strong>${label}</strong></p></div>`;
+    return;
+  }
+  // m: [method, returnType, desc, avg, worst, avgColor, worstColor]
+  const rows = data.methods.map(m => `
+    <tr>
+      <td><span class="method-name">${m[0]}</span></td>
+      <td><span class="ret-type">${m[1]}</span></td>
+      <td><span class="desc">${m[2]}</span></td>
+      <td><span class="pill ${pillClass(m[5])}">${m[3]}</span></td>
+      <td><span class="pill ${pillClass(m[6])}">${m[4]}</span></td>
+    </tr>`).join("");
+
+  detail.innerHTML = `
+    <div class="detail-header">
+      <h2>${label}</h2>
+      <div class="sub">
+        <span>implements</span>
+        <span class="impl-badge">${data.implements}</span>
+        <span>backed by</span>
+        <span class="impl-badge blue">${data.backed}</span>
+      </div>
+    </div>
+    <table class="complexity-table">
+      <thead><tr>
+        <th>Method</th><th>Returns</th><th>Description</th><th>Avg Case</th><th>Worst Case</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="note-box"><strong>Note: </strong>${data.note}</div>`;
+}
+
+function buildNode(node) {
+  const hasChildren = node.children && node.children.length > 0;
+  const subtree = document.createElement("div");
+  subtree.className = "subtree";
+
+  const card = document.createElement("div");
+  card.className = `node ${node.type}`;
+
+  if (hasChildren) {
+    const toggle = document.createElement("span");
+    toggle.className = "toggle";
+    toggle.textContent = "▾";
+    card.appendChild(toggle);
+  } else {
+    const dot = document.createElement("span");
+    dot.className = "dot";
+    card.appendChild(dot);
+  }
+
+  const body = document.createElement("div");
+  body.className = "node-body";
+  const nameRow = document.createElement("div");
+  nameRow.className = "node-name";
+  nameRow.appendChild(document.createTextNode(node.label));
+  const badge = document.createElement("span");
+  badge.className = `badge badge-${node.type}`;
+  badge.textContent = node.type;
+  nameRow.appendChild(badge);
+  body.appendChild(nameRow);
+
+  if (node.note) {
+    const note = document.createElement("div");
+    note.className = "node-note";
+    note.textContent = node.note;
+    body.appendChild(note);
+  }
+
+  card.appendChild(body);
+  subtree.appendChild(card);
+
+  if (hasChildren) {
+    const childrenDiv = document.createElement("div");
+    childrenDiv.className = "children";
+    node.children.forEach(child => {
+      const wrapper = document.createElement("div");
+      wrapper.className = "child-wrapper";
+      wrapper.appendChild(buildNode(child));
+      childrenDiv.appendChild(wrapper);
+    });
+    subtree.appendChild(childrenDiv);
+    subtree.classList.add("collapsed");
+    card.addEventListener("click", () => {
+      subtree.classList.toggle("collapsed");
+      const t = card.querySelector(".toggle");
+      if (t) t.style.transform = subtree.classList.contains("collapsed") ? "rotate(-90deg)" : "rotate(0deg)";
+    });
+  } else {
+    card.addEventListener("click", () => {
+      if (activeCard) activeCard.classList.remove("active");
+      card.classList.add("active");
+      activeCard = card;
+      showDetail(node.label);
+    });
+  }
+
+  return subtree;
+}
+
+const root = document.getElementById("tree");
+treeData.forEach((node, i) => {
+  if (i > 0) {
+    const div = document.createElement("div");
+    div.className = "divider";
+    root.appendChild(div);
+  }
+  root.appendChild(buildNode(node));
+});
+</script>
+</body>
+</html>
