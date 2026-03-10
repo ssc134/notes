@@ -199,6 +199,19 @@ body {
 }
 .badge-interface { background:var(--node-if-bdg-bg); color:var(--node-if-name); border:1px solid var(--node-if-bdg-bdr); }
 .badge-class { background:var(--node-cl-bdg-bg); color:var(--node-cl-name); border:1px solid var(--node-cl-bdg-bdr); }
+.methods-btn {
+  margin-left:6px;
+  padding:1px 6px;
+  border-radius:999px;
+  border:1px solid var(--border3);
+  background:transparent;
+  color:var(--text2);
+  font-size:9px;
+  font-weight:700;
+  letter-spacing:.4px;
+  cursor:pointer;
+}
+.methods-btn:hover { border-color:var(--text3); color:var(--text); }
 .node-note { font-size:9.5px; font-style:italic; }
 .interface .node-note { color:var(--node-if-note); }
 .class .node-note { color:var(--node-cl-note); }
@@ -456,6 +469,58 @@ function closeSheet() {
 const JU = 'https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/util/';
 const JL = 'https://docs.oracle.com/en/java/javase/21/docs/api/java.base/java/lang/';
 const links = {
+  // Interfaces
+  'Iterable<E>#iterator()':JU+'Iterable.html#iterator()',
+  'Collection<E>#size()':JU+'Collection.html#size()',
+  'Collection<E>#isEmpty()':JU+'Collection.html#isEmpty()',
+  'Collection<E>#contains(o)':JU+'Collection.html#contains(java.lang.Object)',
+  'Collection<E>#iterator()':JU+'Collection.html#iterator()',
+  'Collection<E>#add(e)':JU+'Collection.html#add(E)',
+  'Collection<E>#remove(o)':JU+'Collection.html#remove(java.lang.Object)',
+  'Collection<E>#clear()':JU+'Collection.html#clear()',
+  'List<E>#get(i)':JU+'List.html#get(int)',
+  'List<E>#set(i, e)':JU+'List.html#set(int,E)',
+  'List<E>#add(e)':JU+'List.html#add(E)',
+  'List<E>#add(i, e)':JU+'List.html#add(int,E)',
+  'List<E>#remove(i)':JU+'List.html#remove(int)',
+  'List<E>#remove(o)':JU+'List.html#remove(java.lang.Object)',
+  'List<E>#indexOf(o)':JU+'List.html#indexOf(java.lang.Object)',
+  'Set<E>#add(e)':JU+'Set.html#add(E)',
+  'Set<E>#contains(o)':JU+'Set.html#contains(java.lang.Object)',
+  'Set<E>#remove(o)':JU+'Set.html#remove(java.lang.Object)',
+  'Queue<E>#offer(e)':JU+'Queue.html#offer(E)',
+  'Queue<E>#poll()':JU+'Queue.html#poll()',
+  'Queue<E>#peek()':JU+'Queue.html#peek()',
+  'Deque<E>#offerFirst(e)':JU+'Deque.html#offerFirst(E)',
+  'Deque<E>#offerLast(e)':JU+'Deque.html#offerLast(E)',
+  'Deque<E>#pollFirst()':JU+'Deque.html#pollFirst()',
+  'Deque<E>#pollLast()':JU+'Deque.html#pollLast()',
+  'Deque<E>#peekFirst()':JU+'Deque.html#peekFirst()',
+  'Deque<E>#peekLast()':JU+'Deque.html#peekLast()',
+  'NavigableSet<E>#floor(e)':JU+'NavigableSet.html#floor(E)',
+  'NavigableSet<E>#ceiling(e)':JU+'NavigableSet.html#ceiling(E)',
+  'NavigableSet<E>#lower(e)':JU+'NavigableSet.html#lower(E)',
+  'NavigableSet<E>#higher(e)':JU+'NavigableSet.html#higher(E)',
+  'NavigableSet<E>#pollFirst()':JU+'NavigableSet.html#pollFirst()',
+  'NavigableSet<E>#pollLast()':JU+'NavigableSet.html#pollLast()',
+  'Map<K,V>#put(k, v)':JU+'Map.html#put(K,V)',
+  'Map<K,V>#get(k)':JU+'Map.html#get(java.lang.Object)',
+  'Map<K,V>#remove(k)':JU+'Map.html#remove(java.lang.Object)',
+  'Map<K,V>#containsKey(k)':JU+'Map.html#containsKey(java.lang.Object)',
+  'Map<K,V>#containsValue(v)':JU+'Map.html#containsValue(java.lang.Object)',
+  'Map<K,V>#size()':JU+'Map.html#size()',
+  'Map<K,V>#isEmpty()':JU+'Map.html#isEmpty()',
+  'Map<K,V>#keySet()':JU+'Map.html#keySet()',
+  'Map<K,V>#values()':JU+'Map.html#values()',
+  'Map<K,V>#entrySet()':JU+'Map.html#entrySet()',
+  'NavigableMap<K,V>#firstEntry()':JU+'NavigableMap.html#firstEntry()',
+  'NavigableMap<K,V>#lastEntry()':JU+'NavigableMap.html#lastEntry()',
+  'NavigableMap<K,V>#floorEntry(k)':JU+'NavigableMap.html#floorEntry(K)',
+  'NavigableMap<K,V>#ceilingEntry(k)':JU+'NavigableMap.html#ceilingEntry(K)',
+  'NavigableMap<K,V>#lowerEntry(k)':JU+'NavigableMap.html#lowerEntry(K)',
+  'NavigableMap<K,V>#higherEntry(k)':JU+'NavigableMap.html#higherEntry(K)',
+  'NavigableMap<K,V>#pollFirstEntry()':JU+'NavigableMap.html#pollFirstEntry()',
+  'NavigableMap<K,V>#pollLastEntry()':JU+'NavigableMap.html#pollLastEntry()',
   // ArrayList
   'ArrayList#add(e)':JU+'ArrayList.html#add(E)',
   'ArrayList#add(i, e)':JU+'ArrayList.html#add(int,E)',
@@ -651,52 +716,134 @@ const links = {
 
 /* ── Data ── */
 const data = {
+  'Iterable<E>':{
+    implements:'—', backed:'Interface',
+    note:'Common iteration contract for collections (enables for-each). Complexity depends on the implementing collection.',
+    methods:[
+      ['iterator()','Iterator&lt;E&gt;','Get an iterator','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'Collection<E>':{
+    implements:'Iterable&lt;E&gt;', backed:'Interface',
+    note:'Base interface for all collections. Exact time complexity depends on the concrete implementation.',
+    methods:[
+      ['size()','int','Number of elements','Depends','Depends','yellow','yellow'],
+      ['isEmpty()','boolean','Check if empty','Depends','Depends','yellow','yellow'],
+      ['contains(o)','boolean','Membership test','Depends','Depends','yellow','yellow'],
+      ['iterator()','Iterator&lt;E&gt;','Traverse elements','Depends','Depends','yellow','yellow'],
+      ['add(e)','boolean','Add element','Depends','Depends','yellow','yellow'],
+      ['remove(o)','boolean','Remove element','Depends','Depends','yellow','yellow'],
+      ['clear()','void','Remove all elements','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'List<E>':{
+    implements:'Collection&lt;E&gt;', backed:'Interface',
+    note:'Ordered, indexed collection. Complexities depend on the concrete List implementation (e.g., ArrayList vs LinkedList).',
+    methods:[
+      ['get(i)','E','Access by index','Depends','Depends','yellow','yellow'],
+      ['set(i, e)','E','Replace at index','Depends','Depends','yellow','yellow'],
+      ['add(e)','boolean','Append to end','Depends','Depends','yellow','yellow'],
+      ['add(i, e)','void','Insert at index','Depends','Depends','yellow','yellow'],
+      ['remove(i)','E','Remove by index','Depends','Depends','yellow','yellow'],
+      ['remove(o)','boolean','Remove by object','Depends','Depends','yellow','yellow'],
+      ['indexOf(o)','int','First index of element','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'Set<E>':{
+    implements:'Collection&lt;E&gt;', backed:'Interface',
+    note:'No duplicate elements. Complexity depends on implementation (hash-based vs tree-based).',
+    methods:[
+      ['add(e)','boolean','Insert element','Depends','Depends','yellow','yellow'],
+      ['contains(o)','boolean','Check membership','Depends','Depends','yellow','yellow'],
+      ['remove(o)','boolean','Remove element','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'Queue<E>':{
+    implements:'Collection&lt;E&gt;', backed:'Interface',
+    note:'FIFO-style access via offer/poll/peek. Complexity depends on concrete queue.',
+    methods:[
+      ['offer(e)','boolean','Insert element','Depends','Depends','yellow','yellow'],
+      ['poll()','E','Remove & return head','Depends','Depends','yellow','yellow'],
+      ['peek()','E','View head without removing','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'Deque<E>':{
+    implements:'Queue&lt;E&gt;', backed:'Interface',
+    note:'Double-ended queue (stack + queue). Complexity depends on concrete deque.',
+    methods:[
+      ['offerFirst(e)','boolean','Insert at front','Depends','Depends','yellow','yellow'],
+      ['offerLast(e)','boolean','Insert at back','Depends','Depends','yellow','yellow'],
+      ['pollFirst()','E','Remove from front','Depends','Depends','yellow','yellow'],
+      ['pollLast()','E','Remove from back','Depends','Depends','yellow','yellow'],
+      ['peekFirst()','E','View front','Depends','Depends','yellow','yellow'],
+      ['peekLast()','E','View back','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'NavigableSet<E>':{
+    implements:'SortedSet&lt;E&gt;', backed:'Interface',
+    note:'Sorted set with navigation operations (floor/ceiling/etc.). Complexity depends on implementation.',
+    methods:[
+      ['floor(e)','E','Largest element ≤ e','Depends','Depends','yellow','yellow'],
+      ['ceiling(e)','E','Smallest element ≥ e','Depends','Depends','yellow','yellow'],
+      ['lower(e)','E','Largest element < e','Depends','Depends','yellow','yellow'],
+      ['higher(e)','E','Smallest element > e','Depends','Depends','yellow','yellow'],
+      ['pollFirst()','E','Remove & return first','Depends','Depends','yellow','yellow'],
+      ['pollLast()','E','Remove & return last','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'Map<K,V>':{
+    implements:'—', backed:'Interface',
+    note:'Key-value mapping. Complexity depends on implementation (hash-based vs tree-based).',
+    methods:[
+      ['put(k, v)','V','Insert / update','Depends','Depends','yellow','yellow'],
+      ['get(k)','V','Retrieve by key','Depends','Depends','yellow','yellow'],
+      ['remove(k)','V','Remove by key','Depends','Depends','yellow','yellow'],
+      ['containsKey(k)','boolean','Check key exists','Depends','Depends','yellow','yellow'],
+      ['containsValue(v)','boolean','Check value exists','Depends','Depends','yellow','yellow'],
+      ['size()','int','Return size','Depends','Depends','yellow','yellow'],
+      ['isEmpty()','boolean','Check if empty','Depends','Depends','yellow','yellow'],
+      ['keySet()','Set&lt;K&gt;','All keys','Depends','Depends','yellow','yellow'],
+      ['values()','Collection&lt;V&gt;','All values','Depends','Depends','yellow','yellow'],
+      ['entrySet()','Set&lt;Entry&gt;','All entries','Depends','Depends','yellow','yellow'],
+    ]
+  },
+  'NavigableMap<K,V>':{
+    implements:'SortedMap&lt;K,V&gt;', backed:'Interface',
+    note:'Sorted map with navigation operations (floor/ceiling/etc.). Complexity depends on implementation.',
+    methods:[
+      ['firstEntry()','Entry&lt;K,V&gt;','Smallest entry','Depends','Depends','yellow','yellow'],
+      ['lastEntry()','Entry&lt;K,V&gt;','Largest entry','Depends','Depends','yellow','yellow'],
+      ['floorEntry(k)','Entry&lt;K,V&gt;','Largest key ≤ k','Depends','Depends','yellow','yellow'],
+      ['ceilingEntry(k)','Entry&lt;K,V&gt;','Smallest key ≥ k','Depends','Depends','yellow','yellow'],
+      ['lowerEntry(k)','Entry&lt;K,V&gt;','Largest key < k','Depends','Depends','yellow','yellow'],
+      ['higherEntry(k)','Entry&lt;K,V&gt;','Smallest key > k','Depends','Depends','yellow','yellow'],
+      ['pollFirstEntry()','Entry&lt;K,V&gt;','Remove & return first','Depends','Depends','yellow','yellow'],
+      ['pollLastEntry()','Entry&lt;K,V&gt;','Remove & return last','Depends','Depends','yellow','yellow'],
+    ]
+  },
   ArrayList:{
     implements:'List&lt;E&gt;',backed:'Dynamic Array',
     note:'Amortized O(1) appends — resizes by doubling capacity. Random access is O(1) due to array indexing. Mid-list insertions/deletions are O(n) due to element shifting.',
     methods:[
-      ['add(e)','boolean','Append to end','O(1) amortized','O(n)','yellow','red'],
-      ['add(i, e)','void','Insert at index','O(n)','O(n)','red','red'],
-      ['get(i)','E','Access by index','O(1)','O(1)','green','green'],
-      ['set(i, e)','E','Replace at index','O(1)','O(1)','green','green'],
-      ['remove(i)','E','Remove by index','O(n)','O(n)','red','red'],
-      ['remove(o)','boolean','Remove by object','O(n)','O(n)','red','red'],
-      ['contains(o)','boolean','Search for element','O(n)','O(n)','red','red'],
-      ['indexOf(o)','int','First index of element','O(n)','O(n)','red','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
-      ['isEmpty()','boolean','Check if empty','O(1)','O(1)','green','green'],
-      ['clear()','void','Remove all elements','O(n)','O(n)','red','red'],
-      ['Collections.sort()','void','Sort list (TimSort)','O(n log n)','O(n log n)','yellow','yellow'],
+      // See List<E> for common methods
     ]
   },
   LinkedList:{
     implements:'List&lt;E&gt;, Deque&lt;E&gt;',backed:'Doubly-Linked List',
     note:'Head and tail references allow O(1) ops at both ends. Index access requires traversal — O(n). Higher memory overhead per element than ArrayList.',
     methods:[
-      ['add(e)','boolean','Append to tail','O(1)','O(1)','green','green'],
       ['addFirst(e)','void','Insert at head','O(1)','O(1)','green','green'],
       ['addLast(e)','void','Insert at tail','O(1)','O(1)','green','green'],
-      ['add(i, e)','void','Insert at index','O(n)','O(n)','red','red'],
-      ['get(i)','E','Access by index','O(n)','O(n)','red','red'],
       ['getFirst()','E','Access head','O(1)','O(1)','green','green'],
       ['getLast()','E','Access tail','O(1)','O(1)','green','green'],
-      ['remove(i)','E','Remove by index','O(n)','O(n)','red','red'],
       ['removeFirst()','E','Remove head','O(1)','O(1)','green','green'],
       ['removeLast()','E','Remove tail','O(1)','O(1)','green','green'],
-      ['contains(o)','boolean','Search for element','O(n)','O(n)','red','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
     ]
   },
   Vector:{
     implements:'List&lt;E&gt;',backed:'Synchronized Dynamic Array',
     note:'Legacy synchronized ArrayList. All methods synchronized — use ArrayList + external sync or CopyOnWriteArrayList in modern code.',
     methods:[
-      ['add(e)','boolean','Append to end','O(1) amortized','O(n)','yellow','red'],
-      ['add(i, e)','void','Insert at index','O(n)','O(n)','red','red'],
-      ['get(i)','E','Access by index','O(1)','O(1)','green','green'],
-      ['remove(i)','E','Remove by index','O(n)','O(n)','red','red'],
-      ['contains(o)','boolean','Search for element','O(n)','O(n)','red','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
       ['elementAt(i)','E','Access by index','O(1)','O(1)','green','green'],
     ]
   },
@@ -707,8 +854,6 @@ const data = {
       ['push(e)','E','Insert on top','O(1)','O(n)','green','red'],
       ['pop()','E','Remove from top','O(1)','O(1)','green','green'],
       ['peek()','E','View top without removing','O(1)','O(1)','green','green'],
-      ['isEmpty()','boolean','Check if empty','O(1)','O(1)','green','green'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
       ['search(o)','int','1-based position from top','O(n)','O(n)','red','red'],
     ]
   },
@@ -716,137 +861,63 @@ const data = {
     implements:'Set&lt;E&gt;',backed:'HashMap',
     note:'Backed by a HashMap. Worst case O(n) with collisions; Java 8+ converts buckets to red-black trees at threshold 8, giving O(log n) practical worst case.',
     methods:[
-      ['add(e)','boolean','Insert element','O(1)','O(n)','green','red'],
-      ['remove(o)','boolean','Remove element','O(1)','O(n)','green','red'],
-      ['contains(o)','boolean','Check membership','O(1)','O(n)','green','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
-      ['isEmpty()','boolean','Check if empty','O(1)','O(1)','green','green'],
-      ['clear()','void','Remove all elements','O(n)','O(n)','red','red'],
-      ['iterator()','Iterator&lt;E&gt;','Traverse elements','O(n)','O(n)','red','red'],
+      // See Set<E> / Collection<E> for common methods
     ]
   },
   LinkedHashSet:{
     implements:'Set&lt;E&gt;',backed:'HashMap + Doubly-Linked List',
     note:'Extends HashSet with a linked list maintaining insertion order. Slightly slower than HashSet due to pointer maintenance.',
     methods:[
-      ['add(e)','boolean','Insert (insertion order)','O(1)','O(n)','green','red'],
-      ['remove(o)','boolean','Remove element','O(1)','O(n)','green','red'],
-      ['contains(o)','boolean','Check membership','O(1)','O(n)','green','red'],
-      ['iterator()','Iterator&lt;E&gt;','Traverse in insertion order','O(n)','O(n)','red','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
-      ['isEmpty()','boolean','Check if empty','O(1)','O(1)','green','green'],
+      // See Set<E> / Collection<E> for common methods
     ]
   },
   TreeSet:{
     implements:'NavigableSet&lt;E&gt;, SortedSet&lt;E&gt;',backed:'Red-Black Tree (TreeMap)',
     note:'All operations guaranteed O(log n) — no worst-case degradation. Elements always in sorted order. Ideal for range queries.',
     methods:[
-      ['add(e)','boolean','Insert (sorted)','O(log n)','O(log n)','yellow','yellow'],
-      ['remove(o)','boolean','Remove element','O(log n)','O(log n)','yellow','yellow'],
-      ['contains(o)','boolean','Check membership','O(log n)','O(log n)','yellow','yellow'],
-      ['first()','E','Smallest element','O(log n)','O(log n)','yellow','yellow'],
-      ['last()','E','Largest element','O(log n)','O(log n)','yellow','yellow'],
-      ['floor(e)','E','Largest element ≤ e','O(log n)','O(log n)','yellow','yellow'],
-      ['ceiling(e)','E','Smallest element ≥ e','O(log n)','O(log n)','yellow','yellow'],
-      ['higher(e)','E','Smallest element > e','O(log n)','O(log n)','yellow','yellow'],
-      ['lower(e)','E','Largest element < e','O(log n)','O(log n)','yellow','yellow'],
-      ['headSet(e)','SortedSet&lt;E&gt;','Elements strictly < e','O(log n)','O(log n)','yellow','yellow'],
-      ['tailSet(e)','SortedSet&lt;E&gt;','Elements ≥ e','O(log n)','O(log n)','yellow','yellow'],
-      ['pollFirst()','E','Remove & return smallest','O(log n)','O(log n)','yellow','yellow'],
-      ['pollLast()','E','Remove & return largest','O(log n)','O(log n)','yellow','yellow'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
-      ['iterator()','Iterator&lt;E&gt;','Traverse sorted order','O(n)','O(n)','red','red'],
+      // See NavigableSet<E> / Set<E> for common methods
     ]
   },
   HashMap:{
     implements:'Map&lt;K,V&gt;',backed:'Hash Table',
     note:'Worst case O(n) with collisions. Java 8+ converts buckets to trees at threshold 8. Default load factor 0.75 balances memory and performance.',
     methods:[
-      ['put(k, v)','V','Insert / update key-value','O(1)','O(n)','green','red'],
-      ['get(k)','V','Retrieve value by key','O(1)','O(n)','green','red'],
-      ['remove(k)','V','Remove by key','O(1)','O(n)','green','red'],
-      ['containsKey(k)','boolean','Check if key exists','O(1)','O(n)','green','red'],
-      ['containsValue(v)','boolean','Check if value exists','O(n)','O(n)','red','red'],
-      ['getOrDefault(k,d)','V','Get value or default','O(1)','O(n)','green','red'],
-      ['putIfAbsent(k,v)','V','Insert only if absent','O(1)','O(n)','green','red'],
-      ['keySet()','Set&lt;K&gt;','Set of all keys','O(1)','O(1)','green','green'],
-      ['values()','Collection&lt;V&gt;','Collection of all values','O(1)','O(1)','green','green'],
-      ['entrySet()','Set&lt;Entry&gt;','Set of key-value pairs','O(1)','O(1)','green','green'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
-      ['isEmpty()','boolean','Check if empty','O(1)','O(1)','green','green'],
+      // See Map<K,V> for common methods
     ]
   },
   LinkedHashMap:{
     implements:'Map&lt;K,V&gt;',backed:'HashMap + Doubly-Linked List',
     note:'Maintains insertion order (or access order with accessOrder=true). Perfect for LRU cache — override removeEldestEntry() in access-order mode.',
     methods:[
-      ['put(k, v)','V','Insert / update (ordered)','O(1)','O(n)','green','red'],
-      ['get(k)','V','Retrieve value by key','O(1)','O(n)','green','red'],
-      ['remove(k)','V','Remove by key','O(1)','O(n)','green','red'],
-      ['containsKey(k)','boolean','Check if key exists','O(1)','O(n)','green','red'],
-      ['keySet()','Set&lt;K&gt;','Keys in insertion order','O(1)','O(1)','green','green'],
-      ['entrySet()','Set&lt;Entry&gt;','Entries in insertion order','O(1)','O(1)','green','green'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
+      // See Map<K,V> for common methods
     ]
   },
   Hashtable:{
     implements:'Map&lt;K,V&gt;',backed:'Synchronized Hash Table',
     note:'Legacy synchronized HashMap. Does not allow null keys or values. Use ConcurrentHashMap for modern thread-safe code.',
     methods:[
-      ['put(k, v)','V','Insert / update','O(1)','O(n)','green','red'],
-      ['get(k)','V','Retrieve by key','O(1)','O(n)','green','red'],
-      ['remove(k)','V','Remove by key','O(1)','O(n)','green','red'],
-      ['containsKey(k)','boolean','Check if key exists','O(1)','O(n)','green','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
+      // See Map<K,V> for common methods
     ]
   },
   TreeMap:{
     implements:'NavigableMap&lt;K,V&gt;, SortedMap&lt;K,V&gt;',backed:'Red-Black Tree',
     note:'All operations guaranteed O(log n). Keys always in sorted order. Perfect for range queries, nearest-key lookups, and sorted iteration.',
     methods:[
-      ['put(k, v)','V','Insert / update (sorted)','O(log n)','O(log n)','yellow','yellow'],
-      ['get(k)','V','Retrieve value by key','O(log n)','O(log n)','yellow','yellow'],
-      ['remove(k)','V','Remove by key','O(log n)','O(log n)','yellow','yellow'],
-      ['containsKey(k)','boolean','Check if key exists','O(log n)','O(log n)','yellow','yellow'],
-      ['firstKey()','K','Smallest key','O(log n)','O(log n)','yellow','yellow'],
-      ['lastKey()','K','Largest key','O(log n)','O(log n)','yellow','yellow'],
-      ['floorKey(k)','K','Largest key ≤ k','O(log n)','O(log n)','yellow','yellow'],
-      ['ceilingKey(k)','K','Smallest key ≥ k','O(log n)','O(log n)','yellow','yellow'],
-      ['higherKey(k)','K','Smallest key > k','O(log n)','O(log n)','yellow','yellow'],
-      ['lowerKey(k)','K','Largest key < k','O(log n)','O(log n)','yellow','yellow'],
-      ['headMap(k)','SortedMap&lt;K,V&gt;','Keys strictly < k','O(log n)','O(log n)','yellow','yellow'],
-      ['tailMap(k)','SortedMap&lt;K,V&gt;','Keys ≥ k','O(log n)','O(log n)','yellow','yellow'],
-      ['pollFirstEntry()','Entry&lt;K,V&gt;','Remove & return smallest','O(log n)','O(log n)','yellow','yellow'],
-      ['pollLastEntry()','Entry&lt;K,V&gt;','Remove & return largest','O(log n)','O(log n)','yellow','yellow'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
+      // See NavigableMap<K,V> / Map<K,V> for common methods
     ]
   },
   PriorityQueue:{
     implements:'Queue&lt;E&gt;',backed:'Binary Min-Heap',
     note:'Min-heap by default — peek/poll returns smallest. Use Collections.reverseOrder() or a Comparator for max-heap. Iteration order is NOT sorted.',
     methods:[
-      ['offer(e) / add(e)','boolean','Insert element','O(log n)','O(log n)','yellow','yellow'],
-      ['poll()','E','Remove & return min','O(log n)','O(log n)','yellow','yellow'],
-      ['peek()','E','View min without removing','O(1)','O(1)','green','green'],
-      ['remove(o)','boolean','Remove specific element','O(n)','O(n)','red','red'],
-      ['contains(o)','boolean','Check if element exists','O(n)','O(n)','red','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
-      ['isEmpty()','boolean','Check if empty','O(1)','O(1)','green','green'],
+      // See Queue<E> / Collection<E> for common methods
     ]
   },
   ArrayDeque:{
     implements:'Deque&lt;E&gt;',backed:'Resizable Circular Array',
     note:'Preferred over Stack and LinkedList for stack/queue usage. No null elements. As stack: push/pop/peek. As queue: offerLast/pollFirst/peekFirst.',
     methods:[
-      ['push(e) / offerFirst(e)','void/boolean','Insert at front','O(1) amortized','O(n)','yellow','red'],
-      ['pop() / pollFirst()','E','Remove from front','O(1)','O(1)','green','green'],
-      ['peek() / peekFirst()','E','View front without removing','O(1)','O(1)','green','green'],
-      ['offerLast(e)','boolean','Insert at back','O(1) amortized','O(n)','yellow','red'],
-      ['pollLast()','E','Remove from back','O(1)','O(1)','green','green'],
-      ['peekLast()','E','View back without removing','O(1)','O(1)','green','green'],
-      ['contains(o)','boolean','Search for element','O(n)','O(n)','red','red'],
-      ['size()','int','Return size','O(1)','O(1)','green','green'],
-      ['isEmpty()','boolean','Check if empty','O(1)','O(1)','green','green'],
+      // See Deque<E> / Queue<E> / Collection<E> for common methods
     ]
   },
   String:{
@@ -983,21 +1054,27 @@ const pc = c => ({green:'pill-green',yellow:'pill-yellow',red:'pill-red'}[c]||'p
 function buildDetailHTML(label) {
   const d = data[label];
   if (!d) return `<div class="empty-state"><p>No data for <strong>${label}</strong></p></div>`;
-  const rows = d.methods.map(m => {
+  const methods = Array.isArray(d.methods) ? d.methods : [];
+  const rows = methods.map(m => {
     const url = links[`${label}#${m[0]}`];
     const mc = url
       ? `<a class="method-link" href="${url}" target="_blank" rel="noopener">${m[0]}</a>`
       : `<span class="method-nolink">${m[0]}</span>`;
     return `<tr><td>${mc}</td><td><span class="ret-type">${m[1]}</span></td><td><span class="desc">${m[2]}</span></td><td><span class="pill ${pc(m[5])}">${m[3]}</span></td><td><span class="pill ${pc(m[6])}">${m[4]}</span></td></tr>`;
   }).join('');
+  const emptyMethods = methods.length === 0;
+  const tableHTML = emptyMethods
+    ? `<div class="note-box"><strong>Methods: </strong>No class-specific methods listed here. Use the relevant interface’s <strong>Methods</strong> button for the common API.</div>`
+    : `<div class="table-wrap"><table class="complexity-table">
+    <thead><tr><th>Method</th><th>Returns</th><th>Description</th><th>Avg</th><th>Worst</th></tr></thead>
+    <tbody>${rows}</tbody>
+  </table></div>`;
+
   return `<div class="detail-header">
     <h2>${label}</h2>
     <div class="sub"><span>implements</span><span class="impl-badge">${d.implements}</span><span>backed by</span><span class="impl-badge blue">${d.backed}</span></div>
   </div>
-  <div class="table-wrap"><table class="complexity-table">
-    <thead><tr><th>Method</th><th>Returns</th><th>Description</th><th>Avg</th><th>Worst</th></tr></thead>
-    <tbody>${rows}</tbody>
-  </table></div>
+  ${tableHTML}
   <div class="note-box"><strong>Note: </strong>${d.note}</div>`;
 }
 
@@ -1023,6 +1100,17 @@ function buildNode(node) {
   nr.appendChild(document.createTextNode(node.label));
   const bdg = document.createElement('span'); bdg.className = `badge badge-${node.type}`; bdg.textContent = node.type;
   nr.appendChild(bdg); body.appendChild(nr);
+  if (node.type === 'interface' && data[node.label]) {
+    const mb = document.createElement('button');
+    mb.className = 'methods-btn';
+    mb.type = 'button';
+    mb.textContent = 'METHODS';
+    mb.addEventListener('click', (e) => {
+      e.stopPropagation();
+      showDetail(node.label);
+    });
+    nr.appendChild(mb);
+  }
   if (node.note) { const n = document.createElement('div'); n.className = 'node-note'; n.textContent = node.note; body.appendChild(n); }
   card.appendChild(body); sub.appendChild(card);
   if (hasKids) {
