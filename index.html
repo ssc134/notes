@@ -1160,28 +1160,11 @@ function buildDetailHTML(label) {
 }
 
 let activeCard = null;
-let currentDetailLabel = null;
-
-function renderEmptyDetail() {
-  currentDetailLabel = null;
-  const empty = `<div class="empty-state">
-    <div class="arrow">←</div>
-    <p>Select a <strong style="color:var(--node-cl-name)">class</strong> to view its method complexities</p>
-  </div>`;
-  if (window.innerWidth <= 700) { closeSheet(); }
-  else { document.getElementById('detail').innerHTML = empty; }
-}
 
 function showDetail(label) {
   const html = buildDetailHTML(label);
-  currentDetailLabel = label;
   if (window.innerWidth <= 700) { openSheet(html); }
   else { document.getElementById('detail').innerHTML = html; }
-}
-
-function toggleDetail(label) {
-  if (currentDetailLabel === label) { renderEmptyDetail(); return; }
-  showDetail(label);
 }
 
 /* ── Build tree ── */
@@ -1206,7 +1189,7 @@ function buildNode(node) {
     mb.textContent = 'METHODS';
     mb.addEventListener('click', (e) => {
       e.stopPropagation();
-      toggleDetail(node.label);
+      showDetail(node.label);
     });
     nr.appendChild(mb);
   }
