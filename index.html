@@ -291,6 +291,19 @@ body {
   font-family:'JetBrains Mono',monospace;
   font-size:10.5px;
 }
+.code-block {
+  margin-top:8px;
+  padding:10px 12px;
+  border-radius:7px;
+  border:1px solid var(--border);
+  background:var(--bg4);
+  overflow:auto;
+  font-family:'JetBrains Mono',monospace;
+  font-size:11px;
+  line-height:1.6;
+  white-space:pre;
+}
+.snippet-grid { display:grid; gap:12px; grid-template-columns:repeat(auto-fit, minmax(320px, 1fr)); }
 
 /* Mobile bottom sheet */
 .sheet-overlay {
@@ -418,6 +431,41 @@ body {
       <ul>
         <li><strong>Amortized Time</strong>: the guaranteed average cost per operation over a long sequence. Occasional expensive operations (like an array copying itself to resize) are “paid for” by a large number of cheap operations. It ignores probability.</li>
       </ul>
+    </div>
+  </details>
+</div>
+
+<div class="glossary-wrap">
+  <details class="glossary" open>
+    <summary>
+      <div class="glossary-title">Quick code snippets</div>
+      <div class="glossary-sub">Common patterns + caveats (Java)</div>
+    </summary>
+    <div class="snippet-grid" style="margin-top:10px;">
+      <div class="note-box">
+        <strong>Frequency counter (preferred)</strong>
+        <div class="code-block">hm.merge(i, 1, Integer::sum);</div>
+        <div style="margin-top:8px;">
+          <strong>Caveats</strong>
+          <ul>
+            <li><strong>Null values</strong>: if <code>hm</code> can contain a key mapped to <code>null</code>, <code>merge</code> treats it as “absent” and sets it to <code>1</code>.</li>
+            <li><strong>Type</strong>: works when the map value type is <code>Integer</code> (or compatible with the remapping function).</li>
+            <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; use <code>ConcurrentHashMap</code> for safe concurrent updates.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="note-box">
+        <strong>Frequency counter (simple)</strong>
+        <div class="code-block">hm.put(i, hm.getOrDefault(i, 0) + 1);</div>
+        <div style="margin-top:8px;">
+          <strong>Caveats</strong>
+          <ul>
+            <li><strong>Double lookup</strong>: performs a <code>getOrDefault</code> and then a <code>put</code> (slightly more work than <code>merge</code>).</li>
+            <li><strong>Null values</strong>: if the key exists but maps to <code>null</code>, <code>getOrDefault</code> returns <code>null</code>, and <code>null + 1</code> will throw.</li>
+            <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; concurrent updates can be lost.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </details>
 </div>
@@ -1079,10 +1127,28 @@ function buildDetailHTML(label) {
 }
 
 let activeCard = null;
+let currentDetailLabel = null;
+
+function renderEmptyDetail() {
+  currentDetailLabel = null;
+  const empty = `<div class="empty-state">
+    <div class="arrow">←</div>
+    <p>Select a <strong style="color:var(--node-cl-name)">class</strong> to view its method complexities</p>
+  </div>`;
+  if (window.innerWidth <= 700) { closeSheet(); }
+  else { document.getElementById('detail').innerHTML = empty; }
+}
+
 function showDetail(label) {
   const html = buildDetailHTML(label);
+  currentDetailLabel = label;
   if (window.innerWidth <= 700) { openSheet(html); }
   else { document.getElementById('detail').innerHTML = html; }
+}
+
+function toggleDetail(label) {
+  if (currentDetailLabel === label) { renderEmptyDetail(); return; }
+  showDetail(label);
 }
 
 /* ── Build tree ── */
@@ -1107,7 +1173,7 @@ function buildNode(node) {
     mb.textContent = 'METHODS';
     mb.addEventListener('click', (e) => {
       e.stopPropagation();
-      showDetail(node.label);
+      toggleDetail(node.label);
     });
     nr.appendChild(mb);
   }
