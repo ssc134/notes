@@ -480,6 +480,25 @@ body {
           </ul>
         </div>
       </div>
+      <div class="note-box">
+        <strong>Java comparators</strong>
+        <div style="margin-top:6px;">
+          In Java, a custom <code>Comparator</code> lets you control how objects are ordered when sorting a list/array or using ordered structures like a <code>PriorityQueue</code>.
+        </div>
+        <div style="margin-top:8px;"><strong>The golden rule of <code>compare(a, b)</code></strong></div>
+        <ul>
+          <li><strong>Negative (&lt; 0)</strong>: <code>a</code> comes before <code>b</code>.</li>
+          <li><strong>Zero (== 0)</strong>: <code>a</code> and <code>b</code> are considered equal in order.</li>
+          <li><strong>Positive (&gt; 0)</strong>: <code>a</code> comes after <code>b</code>.</li>
+        </ul>
+        <div class="code-block">// Sort students by grade, highest to lowest
+PriorityQueue&lt;Student&gt; topStudents = new PriorityQueue&lt;&gt;(
+    (s1, s2) -&gt; Integer.compare(s2.grade, s1.grade)
+);</div>
+        <div style="margin-top:8px;">
+          <strong>Note</strong>: Prefer <code>Integer.compare(a, b)</code> (or <code>Long.compare</code>, etc.) over subtraction (<code>a - b</code>) to avoid silent integer overflow with very large numbers.
+        </div>
+      </div>
     </div>
   </details>
 </div>
