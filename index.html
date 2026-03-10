@@ -107,6 +107,31 @@ body {
   display:flex; flex:1; overflow:hidden;
   height:calc(100vh - 96px); position:relative;
 }
+.glossary-wrap {
+  padding:18px 18px 40px;
+  background:var(--detail-bg);
+  border-top:1px solid var(--border);
+}
+.glossary {
+  max-width:1100px;
+}
+.glossary summary {
+  cursor:pointer;
+  user-select:none;
+  list-style:none;
+}
+.glossary summary::-webkit-details-marker { display:none; }
+.glossary-title {
+  font-family:'JetBrains Mono',monospace;
+  font-size:12px;
+  font-weight:700;
+  color:var(--heading);
+}
+.glossary-sub {
+  margin-top:3px;
+  font-size:10.5px;
+  color:var(--text3);
+}
 .tree-panel {
   width:400px; min-width:220px; max-width:70%;
   overflow-y:auto; overflow-x:auto;
@@ -244,6 +269,15 @@ body {
   font-size:11px; color:var(--note-txt); line-height:1.65;
 }
 .note-box strong { color:var(--note-strong); }
+.note-box ul {
+  margin:6px 0 0 18px;
+  padding:0;
+}
+.note-box li { margin:2px 0; }
+.note-box code {
+  font-family:'JetBrains Mono',monospace;
+  font-size:10.5px;
+}
 
 /* Mobile bottom sheet */
 .sheet-overlay {
@@ -287,6 +321,7 @@ body {
   .header { padding:11px 14px 10px; }
   .header-left h1 { font-size:14px; }
   .legend { display:none; }
+  .glossary-wrap { padding:14px 12px 28px; }
   .layout { flex-direction:column; height:calc(100vh - 82px); }
   .tree-panel {
     width:100% !important; max-width:100%; min-width:0;
@@ -342,6 +377,36 @@ body {
     <button class="sheet-close" onclick="closeSheet()">✕</button>
   </div>
   <div class="sheet-body" id="sheetBody"></div>
+</div>
+
+<div class="glossary-wrap">
+  <details class="glossary">
+    <summary>
+      <div class="glossary-title">Time complexity glossary</div>
+      <div class="glossary-sub">Big-O/Ω/Θ, worst/best/average-case, and amortized time</div>
+    </summary>
+    <div class="note-box" style="margin-top:10px;">
+      <div><strong>📐 The mathematical notations (the bounds)</strong></div>
+      <ul>
+        <li><strong>Big O (O)</strong>: the upper bound. The algorithm’s time will grow no faster than this rate.</li>
+        <li><strong>Big &Omega; (&Omega;)</strong>: the lower bound. The algorithm’s time will take at least this long to grow.</li>
+        <li><strong>Big &Theta; (&Theta;)</strong>: the tight bound. The exact growth rate (runtime is sandwiched by this function).</li>
+        <li><strong>Little o (o)</strong> &amp; <strong>little &omega; (&omega;)</strong>: strict upper and lower bounds (runtime must be strictly less than or greater than the bound, never equal).</li>
+      </ul>
+
+      <div style="margin-top:8px;"><strong>⏱️ The scenarios (the inputs)</strong></div>
+      <ul>
+        <li><strong>Worst-Case</strong>: the single specific input of size <code>n</code> that takes the absolute maximum time. The industry standard is to bound this using <strong>O</strong>.</li>
+        <li><strong>Best-Case</strong>: the single specific input of size <code>n</code> that takes the absolute minimum time. Mathematically, this is best described using <strong>&Omega;</strong>.</li>
+        <li><strong>Average-Case</strong>: the expected time across all possible inputs of size <code>n</code>, weighted by the probability of each input occurring.</li>
+      </ul>
+
+      <div style="margin-top:8px;"><strong>🏦 Amortized complexity (the sequence)</strong></div>
+      <ul>
+        <li><strong>Amortized Time</strong>: the guaranteed average cost per operation over a long sequence. Occasional expensive operations (like an array copying itself to resize) are “paid for” by a large number of cheap operations. It ignores probability.</li>
+      </ul>
+    </div>
+  </details>
 </div>
 
 <script>
