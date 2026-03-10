@@ -466,6 +466,20 @@ body {
           </ul>
         </div>
       </div>
+      <div class="note-box">
+        <strong>Iterate a Map (entrySet)</strong>
+        <div class="code-block">for (Map.Entry&lt;String, String&gt; entry : hm.entrySet()) {
+    System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
+}</div>
+        <div style="margin-top:8px;">
+          <strong>Caveats</strong>
+          <ul>
+            <li><strong>Efficiency</strong>: prefer <code>entrySet()</code> when you need both key and value (avoids extra lookups vs <code>keySet()</code> + <code>get</code>).</li>
+            <li><strong>Order</strong>: iteration order depends on the map type (e.g., <code>HashMap</code> unordered, <code>LinkedHashMap</code> insertion/access order, <code>TreeMap</code> sorted).</li>
+            <li><strong>Concurrent modification</strong>: structurally modifying the map while iterating can throw <code>ConcurrentModificationException</code> (unless using concurrent collections / iterator rules).</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </details>
 </div>
