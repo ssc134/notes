@@ -499,6 +499,17 @@ PriorityQueue&lt;Student&gt; topStudents = new PriorityQueue&lt;&gt;(
           <strong>Note</strong>: Prefer <code>Integer.compare(a, b)</code> (or <code>Long.compare</code>, etc.) over subtraction (<code>a - b</code>) to avoid silent integer overflow with very large numbers.
         </div>
       </div>
+      <div class="note-box">
+        <strong>Creating an array of lists</strong>
+        <div class="code-block">List&lt;Integer&gt;[] buckets = new List[10];</div>
+        <div style="margin-top:8px;">
+          <strong>Caveats</strong>
+          <ul>
+            <li><strong>Generic array</strong>: you cannot write <code>new List&lt;Integer&gt;[10]</code> — Java does not allow creating arrays of parameterized types. Use <code>new List[10]</code> and declare the variable as <code>List&lt;Integer&gt;[]</code> (or use <code>@SuppressWarnings("unchecked")</code> if needed).</li>
+            <li><strong>Initialization</strong>: each slot is <code>null</code> until you assign a list (e.g. <code>buckets[i] = new ArrayList&lt;&gt;();</code>). Initialize before use to avoid <code>NullPointerException</code>.</li>
+          </ul>
+        </div>
+      </div>
     </div>
   </details>
 </div>
