@@ -621,6 +621,12 @@ const links = {
   'Deque<E>#push(e)':JU+'Deque.html#push(E)',
   'Deque<E>#pop()':JU+'Deque.html#pop()',
   'Deque<E>#descendingIterator()':JU+'Deque.html#descendingIterator()',
+  'SortedSet<E>#comparator()':JU+'SortedSet.html#comparator()',
+  'SortedSet<E>#subSet(a, b)':JU+'SortedSet.html#subSet(E,E)',
+  'SortedSet<E>#headSet(e)':JU+'SortedSet.html#headSet(E)',
+  'SortedSet<E>#tailSet(e)':JU+'SortedSet.html#tailSet(E)',
+  'SortedSet<E>#first()':JU+'SortedSet.html#first()',
+  'SortedSet<E>#last()':JU+'SortedSet.html#last()',
   'NavigableSet<E>#floor(e)':JU+'NavigableSet.html#floor(E)',
   'NavigableSet<E>#ceiling(e)':JU+'NavigableSet.html#ceiling(E)',
   'NavigableSet<E>#lower(e)':JU+'NavigableSet.html#lower(E)',
@@ -656,6 +662,12 @@ const links = {
   'Map<K,V>#computeIfPresent(k,f)':JU+'Map.html#computeIfPresent(K,java.util.function.BiFunction)',
   'Map<K,V>#compute(k,f)':JU+'Map.html#compute(K,java.util.function.BiFunction)',
   'Map<K,V>#merge(k,v,f)':JU+'Map.html#merge(K,V,java.util.function.BiFunction)',
+  'SortedMap<K,V>#comparator()':JU+'SortedMap.html#comparator()',
+  'SortedMap<K,V>#subMap(a, b)':JU+'SortedMap.html#subMap(K,K)',
+  'SortedMap<K,V>#headMap(k)':JU+'SortedMap.html#headMap(K)',
+  'SortedMap<K,V>#tailMap(k)':JU+'SortedMap.html#tailMap(K)',
+  'SortedMap<K,V>#firstKey()':JU+'SortedMap.html#firstKey()',
+  'SortedMap<K,V>#lastKey()':JU+'SortedMap.html#lastKey()',
   'NavigableMap<K,V>#firstEntry()':JU+'NavigableMap.html#firstEntry()',
   'NavigableMap<K,V>#lastEntry()':JU+'NavigableMap.html#lastEntry()',
   'NavigableMap<K,V>#floorEntry(k)':JU+'NavigableMap.html#floorEntry(K)',
@@ -848,7 +860,11 @@ const links = {
   // String
   'String#length()':JL+'String.html#length()',
   'String#charAt(i)':JL+'String.html#charAt(int)',
+  'String#codePointAt(i)':JL+'String.html#codePointAt(int)',
+  'String#codePointBefore(i)':JL+'String.html#codePointBefore(int)',
+  'String#codePointCount(s, e)':JL+'String.html#codePointCount(int,int)',
   'String#substring(s, e)':JL+'String.html#substring(int,int)',
+  'String#lastIndexOf(s)':JL+'String.html#lastIndexOf(java.lang.String)',
   'String#indexOf(s)':JL+'String.html#indexOf(java.lang.String)',
   'String#contains(s)':JL+'String.html#contains(java.lang.CharSequence)',
   'String#equals(s)':JL+'String.html#equals(java.lang.Object)',
@@ -859,39 +875,77 @@ const links = {
   'String#toUpperCase()':JL+'String.html#toUpperCase()',
   'String#trim() / strip()':JL+'String.html#strip()',
   'String#split(regex)':JL+'String.html#split(java.lang.String)',
+  'String#split(regex, limit)':JL+'String.html#split(java.lang.String,int)',
   'String#replace(old, new)':JL+'String.html#replace(java.lang.CharSequence,java.lang.CharSequence)',
+  'String#replaceAll(regex, repl)':JL+'String.html#replaceAll(java.lang.String,java.lang.String)',
+  'String#replaceFirst(regex, repl)':JL+'String.html#replaceFirst(java.lang.String,java.lang.String)',
+  'String#matches(regex)':JL+'String.html#matches(java.lang.String)',
+  'String#concat(str)':JL+'String.html#concat(java.lang.String)',
+  'String#subSequence(s, e)':JL+'String.html#subSequence(int,int)',
+  'String#compareToIgnoreCase(s)':JL+'String.html#compareToIgnoreCase(java.lang.String)',
+  'String#contentEquals(cs)':JL+'String.html#contentEquals(java.lang.CharSequence)',
+  'String#regionMatches(...)':JL+'String.html#regionMatches(int,java.lang.String,int,int)',
+  'String#startsWith(prefix, offset)':JL+'String.html#startsWith(java.lang.String,int)',
   'String#startsWith(prefix)':JL+'String.html#startsWith(java.lang.String)',
   'String#endsWith(suffix)':JL+'String.html#endsWith(java.lang.String)',
   'String#isEmpty()':JL+'String.html#isEmpty()',
   'String#isBlank()':JL+'String.html#isBlank()',
+  'String#stripLeading()':JL+'String.html#stripLeading()',
+  'String#stripTrailing()':JL+'String.html#stripTrailing()',
+  'String#repeat(n)':JL+'String.html#repeat(int)',
+  'String#getBytes()':JL+'String.html#getBytes()',
+  'String#lines()':JL+'String.html#lines()',
+  'String#chars()':JL+'String.html#chars()',
+  'String#codePoints()':JL+'String.html#codePoints()',
+  'String#String.join(delim, elems)':JL+'String.html#join(java.lang.CharSequence,java.lang.CharSequence...)',
   'String#String.valueOf(x)':JL+'String.html#valueOf(java.lang.Object)',
   'String#intern()':JL+'String.html#intern()',
   // StringBuilder
   'StringBuilder#append(x)':JL+'StringBuilder.html#append(java.lang.String)',
+  'StringBuilder#appendCodePoint(cp)':JL+'StringBuilder.html#appendCodePoint(int)',
   'StringBuilder#insert(i, x)':JL+'StringBuilder.html#insert(int,java.lang.String)',
   'StringBuilder#delete(s, e)':JL+'StringBuilder.html#delete(int,int)',
   'StringBuilder#deleteCharAt(i)':JL+'StringBuilder.html#deleteCharAt(int)',
   'StringBuilder#replace(s, e, str)':JL+'StringBuilder.html#replace(int,int,java.lang.String)',
   'StringBuilder#reverse()':JL+'StringBuilder.html#reverse()',
   'StringBuilder#charAt(i)':JL+'StringBuilder.html#charAt(int)',
+  'StringBuilder#codePointAt(i)':JL+'StringBuilder.html#codePointAt(int)',
+  'StringBuilder#codePointBefore(i)':JL+'StringBuilder.html#codePointBefore(int)',
+  'StringBuilder#codePointCount(s, e)':JL+'StringBuilder.html#codePointCount(int,int)',
+  'StringBuilder#offsetByCodePoints(i, off)':JL+'StringBuilder.html#offsetByCodePoints(int,int)',
   'StringBuilder#setCharAt(i, c)':JL+'StringBuilder.html#setCharAt(int,char)',
   'StringBuilder#indexOf(s)':JL+'StringBuilder.html#indexOf(java.lang.String)',
+  'StringBuilder#lastIndexOf(s)':JL+'StringBuilder.html#lastIndexOf(java.lang.String)',
+  'StringBuilder#capacity()':JL+'StringBuilder.html#capacity()',
+  'StringBuilder#ensureCapacity(n)':JL+'StringBuilder.html#ensureCapacity(int)',
+  'StringBuilder#trimToSize()':JL+'StringBuilder.html#trimToSize()',
   'StringBuilder#length()':JL+'StringBuilder.html#length()',
   'StringBuilder#toString()':JL+'StringBuilder.html#toString()',
   'StringBuilder#substring(s, e)':JL+'StringBuilder.html#substring(int,int)',
+  'StringBuilder#subSequence(s, e)':JL+'StringBuilder.html#subSequence(int,int)',
   // StringBuffer
   'StringBuffer#append(x)':JL+'StringBuffer.html#append(java.lang.String)',
+  'StringBuffer#appendCodePoint(cp)':JL+'StringBuffer.html#appendCodePoint(int)',
   'StringBuffer#insert(i, x)':JL+'StringBuffer.html#insert(int,java.lang.String)',
   'StringBuffer#delete(s, e)':JL+'StringBuffer.html#delete(int,int)',
   'StringBuffer#deleteCharAt(i)':JL+'StringBuffer.html#deleteCharAt(int)',
   'StringBuffer#replace(s, e, str)':JL+'StringBuffer.html#replace(int,int,java.lang.String)',
   'StringBuffer#reverse()':JL+'StringBuffer.html#reverse()',
   'StringBuffer#charAt(i)':JL+'StringBuffer.html#charAt(int)',
+  'StringBuffer#codePointAt(i)':JL+'StringBuffer.html#codePointAt(int)',
+  'StringBuffer#codePointBefore(i)':JL+'StringBuffer.html#codePointBefore(int)',
+  'StringBuffer#codePointCount(s, e)':JL+'StringBuffer.html#codePointCount(int,int)',
+  'StringBuffer#offsetByCodePoints(i, off)':JL+'StringBuffer.html#offsetByCodePoints(int,int)',
   'StringBuffer#setCharAt(i, c)':JL+'StringBuffer.html#setCharAt(int,char)',
   'StringBuffer#indexOf(s)':JL+'StringBuffer.html#indexOf(java.lang.String)',
+  'StringBuffer#lastIndexOf(s)':JL+'StringBuffer.html#lastIndexOf(java.lang.String)',
+  'StringBuffer#capacity()':JL+'StringBuffer.html#capacity()',
+  'StringBuffer#ensureCapacity(n)':JL+'StringBuffer.html#ensureCapacity(int)',
+  'StringBuffer#trimToSize()':JL+'StringBuffer.html#trimToSize()',
   'StringBuffer#length()':JL+'StringBuffer.html#length()',
   'StringBuffer#toString()':JL+'StringBuffer.html#toString()',
   'StringBuffer#substring(s, e)':JL+'StringBuffer.html#substring(int,int)',
+  'StringBuffer#subSequence(s, e)':JL+'StringBuffer.html#subSequence(int,int)',
   // Arrays (Array primitive)
   'Array (primitive)#Arrays.sort(arr)':JU+'Arrays.html#sort(int[])',
   'Array (primitive)#Arrays.sort(arr, s, e)':JU+'Arrays.html#sort(int[],int,int)',
@@ -999,6 +1053,7 @@ const data = {
   },
   'Collection<E>':{
     implements:'Iterable&lt;E&gt;', backed:'Interface',
+    includeMethodsFrom:['Iterable<E>'],
     note:'Base interface for all collections. Exact time complexity depends on the concrete implementation.',
     methods:[
       ['size()','int','Number of elements','Depends','Depends','yellow','yellow'],
@@ -1022,6 +1077,7 @@ const data = {
   },
   'List<E>':{
     implements:'Collection&lt;E&gt;', backed:'Interface',
+    includeMethodsFrom:['Collection<E>'],
     note:'Ordered, indexed collection. Complexities depend on the concrete List implementation (e.g., ArrayList vs LinkedList).',
     methods:[
       ['get(i)','E','Access by index','Depends','Depends','yellow','yellow'],
@@ -1043,6 +1099,7 @@ const data = {
   },
   'Set<E>':{
     implements:'Collection&lt;E&gt;', backed:'Interface',
+    includeMethodsFrom:['Collection<E>'],
     note:'No duplicate elements. Complexity depends on implementation (hash-based vs tree-based).',
     methods:[
       ['add(e)','boolean','Insert element','Depends','Depends','yellow','yellow'],
@@ -1052,6 +1109,7 @@ const data = {
   },
   'Queue<E>':{
     implements:'Collection&lt;E&gt;', backed:'Interface',
+    includeMethodsFrom:['Collection<E>'],
     note:'FIFO-style access via offer/poll/peek. Complexity depends on concrete queue.',
     methods:[
       ['add(e)','boolean','Insert element (may throw)','Depends','Depends','yellow','yellow'],
@@ -1064,6 +1122,7 @@ const data = {
   },
   'Deque<E>':{
     implements:'Queue&lt;E&gt;', backed:'Interface',
+    includeMethodsFrom:['Queue<E>'],
     note:'Double-ended queue (stack + queue). Complexity depends on concrete deque.',
     methods:[
       ['addFirst(e)','void','Insert at front (may throw)','Depends','Depends','yellow','yellow'],
@@ -1083,8 +1142,22 @@ const data = {
       ['descendingIterator()','Iterator&lt;E&gt;','Reverse iterator','Depends','Depends','yellow','yellow'],
     ]
   },
+  'SortedSet<E>':{
+    implements:'Set&lt;E&gt;', backed:'Interface',
+    includeMethodsFrom:['Set<E>'],
+    note:'Sorted set ordered by natural order or a Comparator. Complexity depends on the concrete implementation.',
+    methods:[
+      ['comparator()','Comparator&lt;? super E&gt;','Comparator used, or null for natural order','Depends','Depends','yellow','yellow'],
+      ['subSet(a, b)','SortedSet&lt;E&gt;','Range view [a,b)','Depends','Depends','yellow','yellow'],
+      ['headSet(e)','SortedSet&lt;E&gt;','Elements strictly less than e','Depends','Depends','yellow','yellow'],
+      ['tailSet(e)','SortedSet&lt;E&gt;','Elements greater than or equal to e','Depends','Depends','yellow','yellow'],
+      ['first()','E','Smallest element','Depends','Depends','yellow','yellow'],
+      ['last()','E','Largest element','Depends','Depends','yellow','yellow'],
+    ]
+  },
   'NavigableSet<E>':{
     implements:'SortedSet&lt;E&gt;', backed:'Interface',
+    includeMethodsFrom:['SortedSet<E>'],
     note:'Sorted set with navigation operations (floor/ceiling/etc.). Complexity depends on implementation.',
     methods:[
       ['floor(e)','E','Largest element ≤ e','Depends','Depends','yellow','yellow'],
@@ -1130,8 +1203,22 @@ const data = {
       ['merge(k,v,f)','V','Merge value','Depends','Depends','yellow','yellow'],
     ]
   },
+  'SortedMap<K,V>':{
+    implements:'Map&lt;K,V&gt;', backed:'Interface',
+    includeMethodsFrom:['Map<K,V>'],
+    note:'Sorted map ordered by natural key order or a Comparator. Complexity depends on the concrete implementation.',
+    methods:[
+      ['comparator()','Comparator&lt;? super K&gt;','Comparator used, or null for natural order','Depends','Depends','yellow','yellow'],
+      ['subMap(a, b)','SortedMap&lt;K,V&gt;','Range view [a,b)','Depends','Depends','yellow','yellow'],
+      ['headMap(k)','SortedMap&lt;K,V&gt;','Keys strictly less than k','Depends','Depends','yellow','yellow'],
+      ['tailMap(k)','SortedMap&lt;K,V&gt;','Keys greater than or equal to k','Depends','Depends','yellow','yellow'],
+      ['firstKey()','K','Smallest key','Depends','Depends','yellow','yellow'],
+      ['lastKey()','K','Largest key','Depends','Depends','yellow','yellow'],
+    ]
+  },
   'NavigableMap<K,V>':{
     implements:'SortedMap&lt;K,V&gt;', backed:'Interface',
+    includeMethodsFrom:['SortedMap<K,V>'],
     note:'Sorted map with navigation operations (floor/ceiling/etc.). Complexity depends on implementation.',
     methods:[
       ['firstEntry()','Entry&lt;K,V&gt;','Smallest entry','Depends','Depends','yellow','yellow'],
@@ -1158,6 +1245,7 @@ const data = {
   },
   ArrayList:{
     implements:'List&lt;E&gt;',backed:'Dynamic Array',
+    includeMethodsFrom:['List<E>'],
     note:'Amortized O(1) appends — resizes by doubling capacity. Random access is O(1) due to array indexing. Mid-list insertions/deletions are O(n) due to element shifting.',
     methods:[
       ['add(e)','boolean','Append to end','O(1) amortized','O(n)','yellow','red'],
@@ -1193,6 +1281,7 @@ const data = {
   },
   LinkedList:{
     implements:'List&lt;E&gt;, Deque&lt;E&gt;',backed:'Doubly-Linked List',
+    includeMethodsFrom:['List<E>','Deque<E>'],
     note:'Head and tail references allow O(1) ops at both ends. Index access requires traversal — O(n). Higher memory overhead per element than ArrayList.',
     methods:[
       ['offerFirst(e)','boolean','Insert at front','O(1)','O(1)','green','green'],
@@ -1214,6 +1303,7 @@ const data = {
   },
   Vector:{
     implements:'List&lt;E&gt;',backed:'Synchronized Dynamic Array',
+    includeMethodsFrom:['List<E>'],
     note:'Legacy synchronized ArrayList. All methods synchronized — use ArrayList + external sync or CopyOnWriteArrayList in modern code.',
     methods:[
       ['elementAt(i)','E','Access by index','O(1)','O(1)','green','green'],
@@ -1221,6 +1311,7 @@ const data = {
   },
   Stack:{
     implements:'Vector (List&lt;E&gt;)',backed:'Dynamic Array (via Vector)',
+    includeMethodsFrom:['List<E>'],
     note:'Legacy class extending Vector. Prefer ArrayDeque — no synchronization overhead. Java docs explicitly recommend ArrayDeque for stack usage.',
     methods:[
       ['push(e)','E','Insert on top','O(1)','O(n)','green','red'],
@@ -1231,6 +1322,7 @@ const data = {
   },
   HashSet:{
     implements:'Set&lt;E&gt;',backed:'HashMap',
+    includeMethodsFrom:['Set<E>'],
     note:'Backed by a HashMap. Worst case O(n) with collisions; Java 8+ converts buckets to red-black trees at threshold 8, giving O(log n) practical worst case.',
     methods:[
       // See Set<E> / Collection<E> for common methods
@@ -1238,6 +1330,7 @@ const data = {
   },
   LinkedHashSet:{
     implements:'Set&lt;E&gt;',backed:'HashMap + Doubly-Linked List',
+    includeMethodsFrom:['Set<E>'],
     note:'Extends HashSet with a linked list maintaining insertion order. Slightly slower than HashSet due to pointer maintenance.',
     methods:[
       // See Set<E> / Collection<E> for common methods
@@ -1245,6 +1338,7 @@ const data = {
   },
   TreeSet:{
     implements:'NavigableSet&lt;E&gt;, SortedSet&lt;E&gt;',backed:'Red-Black Tree (TreeMap)',
+    includeMethodsFrom:['NavigableSet<E>'],
     note:'All operations guaranteed O(log n) — no worst-case degradation. Elements always in sorted order. Ideal for range queries.',
     methods:[
       // See NavigableSet<E> / Set<E> for common methods
@@ -1252,6 +1346,7 @@ const data = {
   },
   HashMap:{
     implements:'Map&lt;K,V&gt;',backed:'Hash Table',
+    includeMethodsFrom:['Map<K,V>'],
     note:'Worst case O(n) with collisions. Java 8+ converts buckets to trees at threshold 8. Default load factor 0.75 balances memory and performance.',
     methods:[
       ['put(k, v)','V','Insert / update key-value','O(1)','O(n)','green','red'],
@@ -1280,6 +1375,7 @@ const data = {
   },
   LinkedHashMap:{
     implements:'Map&lt;K,V&gt;',backed:'HashMap + Doubly-Linked List',
+    includeMethodsFrom:['Map<K,V>'],
     note:'Maintains insertion order (or access order with accessOrder=true). Perfect for LRU cache — override removeEldestEntry() in access-order mode.',
     methods:[
       // See Map<K,V> for common methods
@@ -1287,6 +1383,7 @@ const data = {
   },
   Hashtable:{
     implements:'Map&lt;K,V&gt;',backed:'Synchronized Hash Table',
+    includeMethodsFrom:['Map<K,V>'],
     note:'Legacy synchronized HashMap. Does not allow null keys or values. Use ConcurrentHashMap for modern thread-safe code.',
     methods:[
       // See Map<K,V> for common methods
@@ -1294,6 +1391,7 @@ const data = {
   },
   TreeMap:{
     implements:'NavigableMap&lt;K,V&gt;, SortedMap&lt;K,V&gt;',backed:'Red-Black Tree',
+    includeMethodsFrom:['NavigableMap<K,V>'],
     note:'All operations guaranteed O(log n). Keys always in sorted order. Perfect for range queries, nearest-key lookups, and sorted iteration.',
     methods:[
       // See NavigableMap<K,V> / Map<K,V> for common methods
@@ -1301,6 +1399,7 @@ const data = {
   },
   PriorityQueue:{
     implements:'Queue&lt;E&gt;',backed:'Binary Min-Heap',
+    includeMethodsFrom:['Queue<E>'],
     note:'Min-heap by default — peek/poll returns smallest. Use Collections.reverseOrder() or a Comparator for max-heap. Iteration order is NOT sorted.',
     methods:[
       // See Queue<E> / Collection<E> for common methods
@@ -1308,6 +1407,7 @@ const data = {
   },
   ArrayDeque:{
     implements:'Deque&lt;E&gt;',backed:'Resizable Circular Array',
+    includeMethodsFrom:['Deque<E>'],
     note:'Preferred over Stack and LinkedList for stack/queue usage. No null elements. As stack: push/pop/peek. As queue: offerLast/pollFirst/peekFirst.',
     methods:[
       ['push(e) / offerFirst(e)','void/boolean','Insert at front','O(1) amortized','O(n)','yellow','red'],
@@ -1327,22 +1427,44 @@ const data = {
     methods:[
       ['length()','int','Number of characters','O(1)','O(1)','green','green'],
       ['charAt(i)','char','Character at index','O(1)','O(1)','green','green'],
+      ['subSequence(s, e)','CharSequence','View subsequence [s,e)','O(n)','O(n)','red','red'],
       ['substring(s, e)','String','Extract substring','O(n)','O(n)','red','red'],
+      ['codePoints()','IntStream','Unicode code point stream','O(n)','O(n)','red','red'],
+      ['chars()','IntStream','UTF-16 char stream','O(n)','O(n)','red','red'],
+      ['codePointAt(i)','int','Unicode code point at index','O(1)','O(1)','green','green'],
+      ['codePointBefore(i)','int','Unicode code point before index','O(1)','O(1)','green','green'],
+      ['codePointCount(s, e)','int','Count code points in range','O(n)','O(n)','red','red'],
       ['indexOf(s)','int','First occurrence of substring','O(n·m)','O(n·m)','red','red'],
+      ['lastIndexOf(s)','int','Last occurrence of substring','O(n·m)','O(n·m)','red','red'],
       ['contains(s)','boolean','Check if substring exists','O(n·m)','O(n·m)','red','red'],
+      ['matches(regex)','boolean','Regex full-string match','O(n)','O(n)','red','red'],
       ['equals(s)','boolean','Equality check (content)','O(n)','O(n)','red','red'],
       ['equalsIgnoreCase(s)','boolean','Case-insensitive equality','O(n)','O(n)','red','red'],
       ['compareTo(s)','int','Lexicographic comparison','O(n)','O(n)','red','red'],
+      ['compareToIgnoreCase(s)','int','Case-insensitive lexicographic comparison','O(n)','O(n)','red','red'],
+      ['contentEquals(cs)','boolean','Compare against CharSequence','O(n)','O(n)','red','red'],
+      ['regionMatches(...)','boolean','Compare substrings by region','O(n)','O(n)','red','red'],
+      ['concat(str)','String','Append another string','O(n)','O(n)','red','red'],
       ['toCharArray()','char[]','Convert to char[]','O(n)','O(n)','red','red'],
+      ['getBytes()','byte[]','Encode to byte array','O(n)','O(n)','red','red'],
       ['toLowerCase()','String','Convert to lowercase','O(n)','O(n)','red','red'],
       ['toUpperCase()','String','Convert to uppercase','O(n)','O(n)','red','red'],
       ['trim() / strip()','String','Remove leading/trailing spaces','O(n)','O(n)','red','red'],
+      ['stripLeading()','String','Remove leading spaces','O(n)','O(n)','red','red'],
+      ['stripTrailing()','String','Remove trailing spaces','O(n)','O(n)','red','red'],
+      ['lines()','Stream&lt;String&gt;','Lazy stream of lines','O(n)','O(n)','red','red'],
       ['split(regex)','String[]','Split by regex','O(n)','O(n)','red','red'],
+      ['split(regex, limit)','String[]','Split by regex with limit','O(n)','O(n)','red','red'],
       ['replace(old, new)','String','Replace all occurrences','O(n)','O(n)','red','red'],
+      ['replaceAll(regex, repl)','String','Regex replace all','O(n)','O(n)','red','red'],
+      ['replaceFirst(regex, repl)','String','Regex replace first','O(n)','O(n)','red','red'],
+      ['repeat(n)','String','Repeat string n times','O(n)','O(n)','red','red'],
+      ['startsWith(prefix, offset)','boolean','Check prefix at offset','O(m)','O(m)','green','green'],
       ['startsWith(prefix)','boolean','Check prefix','O(m)','O(m)','green','green'],
       ['endsWith(suffix)','boolean','Check suffix','O(m)','O(m)','green','green'],
       ['isEmpty()','boolean','Check if length == 0','O(1)','O(1)','green','green'],
       ['isBlank()','boolean','Check if blank (Java 11+)','O(n)','O(n)','red','red'],
+      ['String.join(delim, elems)','String','Join elements with delimiter','O(n)','O(n)','red','red'],
       ['String.valueOf(x)','String','Convert primitive to String','O(n)','O(n)','red','red'],
       ['intern()','String','Return string pool reference','O(n)','O(n)','red','red'],
       ['+ concatenation','String','Creates new String object','O(n)','O(n)','red','red'],
@@ -1353,17 +1475,27 @@ const data = {
     note:'Mutable — no new object per modification. Prefer over String for loop-based building. Not thread-safe; use StringBuffer if needed.',
     methods:[
       ['append(x)','StringBuilder','Append value (any type)','O(1) amortized','O(n)','yellow','red'],
+      ['appendCodePoint(cp)','StringBuilder','Append Unicode code point','O(1) amortized','O(n)','yellow','red'],
       ['insert(i, x)','StringBuilder','Insert at index','O(n)','O(n)','red','red'],
       ['delete(s, e)','StringBuilder','Remove characters [s, e)','O(n)','O(n)','red','red'],
       ['deleteCharAt(i)','StringBuilder','Remove char at index','O(n)','O(n)','red','red'],
       ['replace(s, e, str)','StringBuilder','Replace substring','O(n)','O(n)','red','red'],
       ['reverse()','StringBuilder','Reverse the contents','O(n)','O(n)','red','red'],
       ['charAt(i)','char','Character at index','O(1)','O(1)','green','green'],
+      ['codePointAt(i)','int','Unicode code point at index','O(1)','O(1)','green','green'],
+      ['codePointBefore(i)','int','Unicode code point before index','O(1)','O(1)','green','green'],
+      ['codePointCount(s, e)','int','Count code points in range','O(n)','O(n)','red','red'],
+      ['offsetByCodePoints(i, off)','int','Move index by code points','O(n)','O(n)','red','red'],
       ['setCharAt(i, c)','void','Set char at index','O(1)','O(1)','green','green'],
       ['indexOf(s)','int','First occurrence of substring','O(n·m)','O(n·m)','red','red'],
+      ['lastIndexOf(s)','int','Last occurrence of substring','O(n·m)','O(n·m)','red','red'],
+      ['capacity()','int','Current buffer capacity','O(1)','O(1)','green','green'],
+      ['ensureCapacity(n)','void','Ensure minimum capacity','O(n)','O(n)','red','red'],
+      ['trimToSize()','void','Shrink capacity to size','O(n)','O(n)','red','red'],
       ['length()','int','Number of characters','O(1)','O(1)','green','green'],
       ['toString()','String','Convert to immutable String','O(n)','O(n)','red','red'],
       ['substring(s, e)','String','Extract substring','O(n)','O(n)','red','red'],
+      ['subSequence(s, e)','CharSequence','View subsequence [s,e)','O(n)','O(n)','red','red'],
     ]
   },
   StringBuffer:{
@@ -1371,17 +1503,27 @@ const data = {
     note:'Thread-safe version of StringBuilder — all methods synchronized. Use StringBuilder in single-threaded code (faster).',
     methods:[
       ['append(x)','StringBuffer','Append value (any type)','O(1) amortized','O(n)','yellow','red'],
+      ['appendCodePoint(cp)','StringBuffer','Append Unicode code point','O(1) amortized','O(n)','yellow','red'],
       ['insert(i, x)','StringBuffer','Insert at index','O(n)','O(n)','red','red'],
       ['delete(s, e)','StringBuffer','Remove characters [s, e)','O(n)','O(n)','red','red'],
       ['deleteCharAt(i)','StringBuffer','Remove char at index','O(n)','O(n)','red','red'],
       ['replace(s, e, str)','StringBuffer','Replace substring','O(n)','O(n)','red','red'],
       ['reverse()','StringBuffer','Reverse the contents','O(n)','O(n)','red','red'],
       ['charAt(i)','char','Character at index','O(1)','O(1)','green','green'],
+      ['codePointAt(i)','int','Unicode code point at index','O(1)','O(1)','green','green'],
+      ['codePointBefore(i)','int','Unicode code point before index','O(1)','O(1)','green','green'],
+      ['codePointCount(s, e)','int','Count code points in range','O(n)','O(n)','red','red'],
+      ['offsetByCodePoints(i, off)','int','Move index by code points','O(n)','O(n)','red','red'],
       ['setCharAt(i, c)','void','Set char at index','O(1)','O(1)','green','green'],
       ['indexOf(s)','int','First occurrence of substring','O(n·m)','O(n·m)','red','red'],
+      ['lastIndexOf(s)','int','Last occurrence of substring','O(n·m)','O(n·m)','red','red'],
+      ['capacity()','int','Current buffer capacity','O(1)','O(1)','green','green'],
+      ['ensureCapacity(n)','void','Ensure minimum capacity','O(n)','O(n)','red','red'],
+      ['trimToSize()','void','Shrink capacity to size','O(n)','O(n)','red','red'],
       ['length()','int','Number of characters','O(1)','O(1)','green','green'],
       ['toString()','String','Convert to immutable String','O(n)','O(n)','red','red'],
       ['substring(s, e)','String','Extract substring','O(n)','O(n)','red','red'],
+      ['subSequence(s, e)','CharSequence','View subsequence [s,e)','O(n)','O(n)','red','red'],
     ]
   },
   'Array (primitive)':{
@@ -1590,20 +1732,42 @@ const tree = [
 /* ── Render detail ── */
 const pc = c => ({green:'pill-green',yellow:'pill-yellow',red:'pill-red'}[c]||'pill-green');
 
+function resolveMethods(label, seen = new Set()) {
+  if (seen.has(label)) return [];
+  seen.add(label);
+  const d = data[label];
+  if (!d) return [];
+
+  const byName = new Map();
+  const parents = Array.isArray(d.includeMethodsFrom) ? d.includeMethodsFrom : [];
+
+  parents.forEach(parentLabel => {
+    resolveMethods(parentLabel, seen).forEach(entry => {
+      byName.set(entry.method[0], entry);
+    });
+  });
+
+  (Array.isArray(d.methods) ? d.methods : []).forEach(method => {
+    byName.set(method[0], { sourceLabel: label, method });
+  });
+
+  return Array.from(byName.values());
+}
+
 function buildDetailHTML(label) {
   const d = data[label];
   if (!d) return `<div class="empty-state"><p>No data for <strong>${label}</strong></p></div>`;
-  const methods = Array.isArray(d.methods) ? d.methods : [];
-  const rows = methods.map(m => {
-    const url = links[`${label}#${m[0]}`];
+  const methodEntries = resolveMethods(label);
+  const rows = methodEntries.map(({ sourceLabel, method: m }) => {
+    const url = links[`${sourceLabel}#${m[0]}`] || links[`${label}#${m[0]}`];
     const mc = url
       ? `<a class="method-link" href="${url}" target="_blank" rel="noopener">${m[0]}</a>`
       : `<span class="method-nolink">${m[0]}</span>`;
     return `<tr><td>${mc}</td><td><span class="ret-type">${m[1]}</span></td><td><span class="desc">${m[2]}</span></td><td><span class="pill ${pc(m[5])}">${m[3]}</span></td><td><span class="pill ${pc(m[6])}">${m[4]}</span></td></tr>`;
   }).join('');
-  const emptyMethods = methods.length === 0;
+  const emptyMethods = methodEntries.length === 0;
   const tableHTML = emptyMethods
-    ? `<div class="note-box"><strong>Methods: </strong>No class-specific methods listed here. Use the relevant interface’s <strong>Methods</strong> button for the common API.</div>`
+    ? `<div class="note-box"><strong>Methods: </strong>No methods listed for this entry yet.</div>`
     : `<div class="table-wrap"><table class="complexity-table">
     <thead><tr><th>Method</th><th>Returns</th><th>Description</th><th>Avg</th><th>Worst</th></tr></thead>
     <tbody>${rows}</tbody>
