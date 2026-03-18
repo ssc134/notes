@@ -132,6 +132,25 @@ body {
   font-size:10.5px;
   color:var(--text3);
 }
+/* Expandable snippet cards */
+.snippet-card { padding:0; }
+.snippet-card summary {
+  list-style:none; cursor:pointer; user-select:none;
+  display:flex; align-items:center; justify-content:space-between; gap:8px;
+  padding:10px 14px;
+  border-radius:6px;
+  transition:background .15s;
+}
+.snippet-card summary::-webkit-details-marker { display:none; }
+.snippet-card summary:hover { background:var(--bg3); }
+.snippet-card[open] summary { border-bottom:1px solid var(--border2); border-radius:6px 6px 0 0; }
+.snippet-card summary strong { font-size:12px; font-family:'JetBrains Mono',monospace; color:var(--heading); }
+.snippet-chevron {
+  flex-shrink:0; width:16px; height:16px; color:var(--text3);
+  transition:transform .2s; display:flex; align-items:center; justify-content:center;
+}
+.snippet-card[open] .snippet-chevron { transform:rotate(90deg); }
+.snippet-body { padding:12px 14px 10px; }
 .tree-panel {
   width:400px; min-width:220px; max-width:70%;
   overflow-y:auto; overflow-x:auto;
@@ -449,6 +468,7 @@ body {
   </details>
 </div>
 
+
 <div class="glossary-wrap">
   <details class="glossary">
     <summary>
@@ -456,74 +476,115 @@ body {
       <div class="glossary-sub">Common patterns + caveats (Java)</div>
     </summary>
     <div class="snippet-grid" style="margin-top:10px;">
-      <div class="note-box">
-        <strong>Frequency counter (preferred)</strong>
-        <div class="code-block">hm.merge(i, 1, Integer::sum);</div>
-        <div style="margin-top:8px;">
-          <strong>Caveats</strong>
-          <ul>
-            <li><strong>Null values</strong>: if <code>hm</code> can contain a key mapped to <code>null</code>, <code>merge</code> treats it as “absent” and sets it to <code>1</code>.</li>
-            <li><strong>Type</strong>: works when the map value type is <code>Integer</code> (or compatible with the remapping function).</li>
-            <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; use <code>ConcurrentHashMap</code> for safe concurrent updates.</li>
-          </ul>
+      <details class="snippet-card note-box">
+        <summary><strong>Frequency counter (preferred)</strong><span class="snippet-chevron">&#9654;</span></summary>
+        <div class="snippet-body">
+          <div class="code-block">hm.merge(i, 1, Integer::sum);</div>
+          <div style="margin-top:8px;">
+            <strong>Caveats</strong>
+            <ul>
+              <li><strong>Null values</strong>: if <code>hm</code> can contain a key mapped to <code>null</code>, <code>merge</code> treats it as "absent" and sets it to <code>1</code>.</li>
+              <li><strong>Type</strong>: works when the map value type is <code>Integer</code> (or compatible with the remapping function).</li>
+              <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; use <code>ConcurrentHashMap</code> for safe concurrent updates.</li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="note-box">
-        <strong>Frequency counter (simple)</strong>
-        <div class="code-block">hm.put(i, hm.getOrDefault(i, 0) + 1);</div>
-        <div style="margin-top:8px;">
-          <strong>Caveats</strong>
-          <ul>
-            <li><strong>Double lookup</strong>: performs a <code>getOrDefault</code> and then a <code>put</code> (slightly more work than <code>merge</code>).</li>
-            <li><strong>Null values</strong>: if the key exists but maps to <code>null</code>, <code>getOrDefault</code> returns <code>null</code>, and <code>null + 1</code> will throw.</li>
-            <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; concurrent updates can be lost.</li>
-          </ul>
+      </details>
+      <details class="snippet-card note-box">
+        <summary><strong>Frequency counter (simple)</strong><span class="snippet-chevron">&#9654;</span></summary>
+        <div class="snippet-body">
+          <div class="code-block">hm.put(i, hm.getOrDefault(i, 0) + 1);</div>
+          <div style="margin-top:8px;">
+            <strong>Caveats</strong>
+            <ul>
+              <li><strong>Double lookup</strong>: performs a <code>getOrDefault</code> and then a <code>put</code> (slightly more work than <code>merge</code>).</li>
+              <li><strong>Null values</strong>: if the key exists but maps to <code>null</code>, <code>getOrDefault</code> returns <code>null</code>, and <code>null + 1</code> will throw.</li>
+              <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; concurrent updates can be lost.</li>
+            </ul>
+          </div>
         </div>
-      </div>
-      <div class="note-box">
-        <strong>Iterate a Map (entrySet)</strong>
-        <div class="code-block">for (Map.Entry&lt;String, String&gt; entry : hm.entrySet()) {
+      </details>
+      <details class="snippet-card note-box">
+        <summary><strong>Iterate a Map (entrySet)</strong><span class="snippet-chevron">&#9654;</span></summary>
+        <div class="snippet-body">
+          <div class="code-block">for (Map.Entry&lt;String, String&gt; entry : hm.entrySet()) {
     System.out.println("Key: " + entry.getKey() + ", Value: " + entry.getValue());
 }</div>
-        <div style="margin-top:8px;">
-          <strong>Caveats</strong>
-          <ul>
-            <li><strong>Efficiency</strong>: prefer <code>entrySet()</code> when you need both key and value (avoids extra lookups vs <code>keySet()</code> + <code>get</code>).</li>
-            <li><strong>Order</strong>: iteration order depends on the map type (e.g., <code>HashMap</code> unordered, <code>LinkedHashMap</code> insertion/access order, <code>TreeMap</code> sorted).</li>
-            <li><strong>Concurrent modification</strong>: structurally modifying the map while iterating can throw <code>ConcurrentModificationException</code> (unless using concurrent collections / iterator rules).</li>
+          <div style="margin-top:8px;">
+            <strong>Caveats</strong>
+            <ul>
+              <li><strong>Efficiency</strong>: prefer <code>entrySet()</code> when you need both key and value (avoids extra lookups vs <code>keySet()</code> + <code>get</code>).</li>
+              <li><strong>Order</strong>: iteration order depends on the map type (e.g., <code>HashMap</code> unordered, <code>LinkedHashMap</code> insertion/access order, <code>TreeMap</code> sorted).</li>
+              <li><strong>Concurrent modification</strong>: structurally modifying the map while iterating can throw <code>ConcurrentModificationException</code> (unless using concurrent collections / iterator rules).</li>
+            </ul>
+          </div>
+        </div>
+      </details>
+      <details class="snippet-card note-box">
+        <summary><strong>Java comparators</strong><span class="snippet-chevron">&#9654;</span></summary>
+        <div class="snippet-body">
+          <div style="margin-bottom:8px;">In Java, a custom <code>Comparator</code> lets you control how objects are ordered when sorting a list/array or using ordered structures like a <code>PriorityQueue</code>.</div>
+          <strong>The golden rule of <code>compare(a, b)</code></strong>
+          <ul style="margin-top:4px;">
+            <li><strong>Negative (&lt; 0)</strong>: <code>a</code> comes before <code>b</code>.</li>
+            <li><strong>Zero (== 0)</strong>: <code>a</code> and <code>b</code> are considered equal in order.</li>
+            <li><strong>Positive (&gt; 0)</strong>: <code>a</code> comes after <code>b</code>.</li>
           </ul>
-        </div>
-      </div>
-      <div class="note-box">
-        <strong>Java comparators</strong>
-        <div style="margin-top:6px;">
-          In Java, a custom <code>Comparator</code> lets you control how objects are ordered when sorting a list/array or using ordered structures like a <code>PriorityQueue</code>.
-        </div>
-        <div style="margin-top:8px;"><strong>The golden rule of <code>compare(a, b)</code></strong></div>
-        <ul>
-          <li><strong>Negative (&lt; 0)</strong>: <code>a</code> comes before <code>b</code>.</li>
-          <li><strong>Zero (== 0)</strong>: <code>a</code> and <code>b</code> are considered equal in order.</li>
-          <li><strong>Positive (&gt; 0)</strong>: <code>a</code> comes after <code>b</code>.</li>
-        </ul>
-        <div class="code-block">// Sort students by grade, highest to lowest
+          <div class="code-block" style="margin-top:8px;">// Sort students by grade, highest to lowest
 PriorityQueue&lt;Student&gt; topStudents = new PriorityQueue&lt;&gt;(
     (s1, s2) -&gt; Integer.compare(s2.grade, s1.grade)
 );</div>
-        <div style="margin-top:8px;">
-          <strong>Note</strong>: Prefer <code>Integer.compare(a, b)</code> (or <code>Long.compare</code>, etc.) over subtraction (<code>a - b</code>) to avoid silent integer overflow with very large numbers.
+          <div style="margin-top:8px;"><strong>Note</strong>: Prefer <code>Integer.compare(a, b)</code> (or <code>Long.compare</code>, etc.) over subtraction (<code>a - b</code>) to avoid silent integer overflow with very large numbers.</div>
         </div>
-      </div>
-      <div class="note-box">
-        <strong>Creating an array of lists</strong>
-        <div class="code-block">List&lt;Integer&gt;[] buckets = new List[10];</div>
-        <div style="margin-top:8px;">
-          <strong>Caveats</strong>
-          <ul>
-            <li><strong>Generic array</strong>: you cannot write <code>new List&lt;Integer&gt;[10]</code> — Java does not allow creating arrays of parameterized types. Use <code>new List[10]</code> and declare the variable as <code>List&lt;Integer&gt;[]</code> (or use <code>@SuppressWarnings("unchecked")</code> if needed).</li>
-            <li><strong>Initialization</strong>: each slot is <code>null</code> until you assign a list (e.g. <code>buckets[i] = new ArrayList&lt;&gt;();</code>). Initialize before use to avoid <code>NullPointerException</code>.</li>
-          </ul>
+      </details>
+      <details class="snippet-card note-box">
+        <summary><strong>Ways to initialize arrays</strong><span class="snippet-chevron">&#9654;</span></summary>
+        <div class="snippet-body">
+          <strong>1) Standard allocation (zero-initialised)</strong>
+          <div class="code-block" style="margin-top:6px;">int[] nums = new int[5];</div>
+          <strong style="display:block;margin-top:10px;">2) Inline initializer</strong>
+          <div class="code-block" style="margin-top:6px;">int[] nums = {10, 20, 30, 40, 50};</div>
+          <strong style="display:block;margin-top:10px;">3) Reassigning an existing variable</strong>
+          <div class="code-block" style="margin-top:6px;">int[] nums;
+nums = new int[]{10, 20, 30};</div>
+          <strong style="display:block;margin-top:10px;">4) Multidimensional arrays</strong>
+          <div class="code-block" style="margin-top:6px;">// 3x3 grid filled with 0s
+int[][] matrix = new int[3][3];
+
+// 2D array with predefined values
+int[][] grid = {
+    {1, 2, 3},
+    {4, 5, 6}
+};</div>
+          <strong style="display:block;margin-top:10px;">5) Jagged arrays (rows of different lengths)</strong>
+          <div class="code-block" style="margin-top:6px;">int[][] jagged = new int[3][];
+jagged[0] = new int[1]; // row 0: 1 column
+jagged[1] = new int[5]; // row 1: 5 columns
+jagged[2] = new int[2]; // row 2: 2 columns</div>
+          <div style="margin-top:10px;">
+            <strong>Caveats</strong>
+            <ul>
+              <li><strong>Default values</strong>: numeric arrays are zero-initialised; <code>boolean[]</code> &rarr; <code>false</code>; reference arrays &rarr; <code>null</code>.</li>
+              <li><strong>Fixed size</strong>: array length is fixed at creation &mdash; use <code>ArrayList</code> for dynamic resizing.</li>
+              <li><strong>Inline syntax only at declaration</strong>: <code>{...}</code> shorthand works only when declaring the variable; use <code>new int[]{...}</code> for reassignment or method arguments.</li>
+              <li><strong>Jagged vs rectangular</strong>: jagged arrays let each row have a different length; rectangular <code>new int[r][c]</code> allocates all rows uniformly.</li>
+            </ul>
+          </div>
         </div>
-      </div>
+      </details>
+      <details class="snippet-card note-box">
+        <summary><strong>Creating an array of lists</strong><span class="snippet-chevron">&#9654;</span></summary>
+        <div class="snippet-body">
+          <div class="code-block">List&lt;Integer&gt;[] buckets = new List[10];</div>
+          <div style="margin-top:8px;">
+            <strong>Caveats</strong>
+            <ul>
+              <li><strong>Generic array</strong>: you cannot write <code>new List&lt;Integer&gt;[10]</code> &mdash; Java does not allow creating arrays of parameterized types. Use <code>new List[10]</code> and declare the variable as <code>List&lt;Integer&gt;[]</code> (or use <code>@SuppressWarnings("unchecked")</code> if needed).</li>
+              <li><strong>Initialization</strong>: each slot is <code>null</code> until you assign a list (e.g. <code>buckets[i] = new ArrayList&lt;&gt;();</code>). Initialize before use to avoid <code>NullPointerException</code>.</li>
+            </ul>
+          </div>
+        </div>
+      </details>
     </div>
   </details>
 </div>
@@ -2061,19 +2122,29 @@ function buildDetailHTML(label) {
   const d = data[label];
   if (!d) return `<div class="empty-state"><p>No data for <strong>${label}</strong></p></div>`;
   const methodEntries = resolveMethods(label);
+  const hasInherited = methodEntries.some(e => e.sourceLabel !== label);
+  const hasOwn      = methodEntries.some(e => e.sourceLabel === label);
   const rows = methodEntries.map(({ sourceLabel, method: m }) => {
     const url = links[`${sourceLabel}#${m[0]}`] || links[`${label}#${m[0]}`];
-    const isStatic = !!(staticMethods[sourceLabel] && staticMethods[sourceLabel].has(m[0]));
+    const isStatic   = !!(staticMethods[sourceLabel] && staticMethods[sourceLabel].has(m[0]));
+    const isInherited = sourceLabel !== label;
+    const srcBadge   = isInherited ? `<span class="source-badge">↑ ${sourceLabel}</span>` : '';
     const methodCore = url
-      ? `<a class="method-link" href="${url}" target="_blank" rel="noopener">${m[0]}</a>`
-      : `<span class="method-nolink">${m[0]}</span>`;
+      ? `<a class="method-link" href="${url}" target="_blank" rel="noopener">${m[0]}</a>${srcBadge}`
+      : `<span class="method-nolink">${m[0]}</span>${srcBadge}`;
     const mc = isStatic ? `<span class="method-static">static</span>${methodCore}` : methodCore;
-    return `<tr><td>${mc}</td><td><span class="ret-type">${m[1]}</span></td><td><span class="desc">${m[2]}</span></td><td><span class="pill ${pc(m[5])}">${m[3]}</span></td><td><span class="pill ${pc(m[6])}">${m[4]}</span></td></tr>`;
+    return `<tr class="${isInherited ? 'row-inherited' : ''}"><td>${mc}</td><td><span class="ret-type">${m[1]}</span></td><td><span class="desc">${m[2]}</span></td><td><span class="pill ${pc(m[5])}">${m[3]}</span></td><td><span class="pill ${pc(m[6])}">${m[4]}</span></td></tr>`;
   }).join('');
   const emptyMethods = methodEntries.length === 0;
+  const legendHTML = (!emptyMethods && (hasOwn || hasInherited)) ? `
+  <div class="methods-legend">
+    <span class="methods-legend-label">Row colour:</span>
+    ${hasOwn ? `<span class="legend-chip legend-chip--own"><span class="chip-swatch"></span>class-specific</span>` : ''}
+    ${hasInherited ? `<span class="legend-chip legend-chip--inh"><span class="chip-swatch"></span>from interface</span>` : ''}
+  </div>` : '';
   const tableHTML = emptyMethods
     ? `<div class="note-box"><strong>Methods: </strong>No methods listed for this entry yet.</div>`
-    : `<div class="table-wrap"><table class="complexity-table">
+    : `${legendHTML}<div class="table-wrap"><table class="complexity-table">
     <thead><tr><th>Method</th><th>Returns</th><th>Description</th><th>Avg</th><th>Worst</th></tr></thead>
     <tbody>${rows}</tbody>
   </table></div>`;
