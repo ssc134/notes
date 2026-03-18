@@ -477,27 +477,24 @@ body {
     </summary>
     <div class="snippet-grid" style="margin-top:10px;">
       <details class="snippet-card note-box">
-        <summary><strong>Frequency counter (preferred)</strong><span class="snippet-chevron">&#9654;</span></summary>
+        <summary><strong>Frequency counter</strong><span class="snippet-chevron">&#9654;</span></summary>
         <div class="snippet-body">
-          <div class="code-block">hm.merge(i, 1, Integer::sum);</div>
+          <strong>Preferred — <code>merge()</code></strong>
+          <div class="code-block" style="margin-top:6px;">hm.merge(i, 1, Integer::sum);</div>
           <div style="margin-top:8px;">
             <strong>Caveats</strong>
             <ul>
-              <li><strong>Null values</strong>: if <code>hm</code> can contain a key mapped to <code>null</code>, <code>merge</code> treats it as "absent" and sets it to <code>1</code>.</li>
+              <li><strong>Null values</strong>: if <code>hm</code> contains a key mapped to <code>null</code>, <code>merge</code> treats it as absent and sets it to <code>1</code>.</li>
               <li><strong>Type</strong>: works when the map value type is <code>Integer</code> (or compatible with the remapping function).</li>
               <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; use <code>ConcurrentHashMap</code> for safe concurrent updates.</li>
             </ul>
           </div>
-        </div>
-      </details>
-      <details class="snippet-card note-box">
-        <summary><strong>Frequency counter (simple)</strong><span class="snippet-chevron">&#9654;</span></summary>
-        <div class="snippet-body">
-          <div class="code-block">hm.put(i, hm.getOrDefault(i, 0) + 1);</div>
+          <strong style="display:block;margin-top:14px;">Simple — <code>getOrDefault()</code></strong>
+          <div class="code-block" style="margin-top:6px;">hm.put(i, hm.getOrDefault(i, 0) + 1);</div>
           <div style="margin-top:8px;">
             <strong>Caveats</strong>
             <ul>
-              <li><strong>Double lookup</strong>: performs a <code>getOrDefault</code> and then a <code>put</code> (slightly more work than <code>merge</code>).</li>
+              <li><strong>Double lookup</strong>: performs a <code>getOrDefault</code> then a <code>put</code> — slightly more work than <code>merge</code>.</li>
               <li><strong>Null values</strong>: if the key exists but maps to <code>null</code>, <code>getOrDefault</code> returns <code>null</code>, and <code>null + 1</code> will throw.</li>
               <li><strong>Concurrency</strong>: not atomic on a plain <code>HashMap</code>; concurrent updates can be lost.</li>
             </ul>
